@@ -1,0 +1,238 @@
+/*   RENDlib device descriptor file.  This is a Cognivision environment file
+/*   that declares static information for RENDlib.  For details about this
+/*   file, see the RENDLIB_DEV help file.  For a general overview of the
+/*   environment file mechanism, see the ENVIRONMENT_FILES help file.
+/*
+/*   Since most of the window sizes and coordinates depend on the screen size,
+/*   This file is broken into different sections, each for a different screen
+/*   size.  The default is 1024 x 768.  To customize for a particular
+/*   screen size, do the following:
+/*
+/*     1 - Copy this file into the directory COGNIVIS > NODE > ENV.
+/*         COGNIVIS refers to the root software installation
+/*         directory.  The COGNIVIS environment variable is set to its
+/*         pathname.  The file must be called "rendlib.dev" just like
+/*         it is here.
+/*
+/*     2 - In the new file created in step 1, delete all but the section
+/*         for your screen size.  Values in this new file override the
+/*         values in the file you copied from in COGNIVIS > ENV.
+/*
+
+/*********************************************************
+/*********************************************************
+/***                                                   ***
+/***   This section is independent of screen size.     ***
+/***                                                   ***
+/*********************************************************
+/*********************************************************
+
+/*******************
+/*
+/*   Convenient "wrapper" names for RENDlib devices.
+/*
+dev_alias none *none*
+dev_alias sw *sw*
+dev_alias window '*window* :. -stdout'
+dev_alias screen '*screen* :.' '*screen* -proc'
+
+/*******************
+/*
+/*   Device names used by various application programs.
+/*
+dev_alias image_disp image_disp_window image_disp_screen /* IMAGE_DISP default
+dev_alias image_disp_window new window
+dev_alias image_disp_screen screen     /* used by IMAGE_DISP -SCREEN
+dev_alias video *tga* *fgen*           /* used by VIDEO_ programs that do drawing
+dev_alias dgolf screen                 /* DGOLF golf swing demo script
+dev_alias golf screen                  /* GOLF program default drawing device
+
+dev_alias new medium                   /* default window, normal window manager
+dev_alias n m                          /* default window, no WM interference
+dev_alias '' new window screen         /* default if nothing specified
+
+/*********************************************************
+/*********************************************************
+/***                                                   ***
+/***   This section is for 1280 x 1024 screens.        ***
+/***                                                   ***
+/*********************************************************
+/*********************************************************
+
+/* /*******************
+/* /*
+/* /*   Device names used by FOTO.
+/* /*
+/* dev_alias foto_scene_diagram '*window* :. -root -indir -size 345 610 -pos 931 4 -name "FOTO Scene Diagram"'
+/* dev_alias foto_menu '*window* :. -root -indir -size 598 369 -pos 678 651 -name "FOTO Menu"'
+/* /*
+/* /*   Render area with 5x4 aspect ratio.  This is the same aspect ratio
+/* /*   as a 1280x1024 workstation screen and an 8x10 print.
+/* /*
+/* dev_alias foto_render '*window* :. -root -indir -size 763 610 -pos 156 4 -name "FOTO Render"'
+/* /*
+/* /*   Render area with 3x2 aspect ratio.  This is the same aspect ratio
+/* /*   as a 35mm slide.
+/* /*
+/* /* dev_alias foto_render '*window* :. -root -indir -size 915 610 -pos 4 4 -name "FOTO Render"'
+/* /*
+/* /*   Render area with 4x3 aspect ratio.  This is the same aspect ratio
+/* /*   NTSC video.
+/* /*
+/* /* dev_alias foto_render '*window* :. -root -indir -size 813 610 -pos 106 4 -name "FOTO Render"'
+/*
+/* /*******************
+/* /*
+/* /*   Names for devices that are new windows on the current screen.
+/* /*
+/* /*   The window manager will be allowed to put borders around these windows.
+/* /*
+/* dev_alias small '*window* :. -root -indir -size 256 205 -pos 1014 30'
+/* dev_alias small2 '*window* :. -root -indir -size 400 320 -pos 870 30'
+/* dev_alias medium '*window* :. -root -indir -size 640 512 -pos 630 30'
+/* dev_alias large '*window* :. -root -indir -size 984 984 -pos 286 30'
+/* /*
+/* /*   Names for new windows on the current screen that will not have any
+/* /*   interference from the window manager.  These may be useful for
+/* /*   debugging, and may be helpful to quickly put up some temporary graphics
+/* /*   without needing any window manager interactions.
+/* /*
+/* dev_alias s '*window* :. -root -indir -nowm -size 256 205 -pos 1024 0'
+/* dev_alias m '*window* :. -root -indir -nowm -size 640 512 -pos 640 0'
+/* dev_alias l '*window* :. -root -indir -nowm -size 1024 1024 -pos 256 0'
+
+/*********************************************************
+/*********************************************************
+/***                                                   ***
+/***   This section is for 1280 x 1024 screens on      ***
+/***   Windows systems.                                ***
+/***                                                   ***
+/*********************************************************
+/*********************************************************
+
+/* dev_alias small '*window* :. -root -indir -size 256 205 -pos 1020 22'
+/* dev_alias small2 '*window* :. -root -indir -size 512 410 -pos 764 22'
+/* dev_alias medium '*window* :. -root -indir -size 640 512 -pos 636 22'
+/* dev_alias large '*window* :. -root -indir -size 984 984 -pos 292 22'
+/* dev_alias s '*window* :. -root -indir -nowm -size 256 205 -pos 1024 0'
+/* dev_alias m '*window* :. -root -indir -nowm -size 640 512 -pos 640 0'
+/* dev_alias l '*window* :. -root -indir -nowm -size 1024 1024 -pos 256 0'
+
+/*********************************************************
+/*********************************************************
+/***                                                   ***
+/***   This section is for 1152 x 900 screens.         ***
+/***   This screen size if common on SUN systems.      ***
+/***                                                   ***
+/*********************************************************
+/*********************************************************
+
+/* /*******************
+/* /*
+/* /*   Device names used by FOTO.
+/* /*
+/* dev_alias foto_scene_diagram '*window* :. -root -indir -size 315 512 -pos 827 0 -name "FOTO Scene Diagram"'
+/* dev_alias foto_menu '*window* :. -root -indir -size 540 328 -pos 602 542 -name "FOTO Menu"'
+/* /*
+/* /*   Render area with 5x4 aspect ratio.  This is the same aspect ratio
+/* /*   as a 1280x1024 workstation screen and an 8x10 print.
+/* /*
+/* dev_alias foto_render '*window* :. -root -indir -size 640 512 -pos 177 0 -name "FOTO Render"'
+/* /*
+/* /*   Render area with 3x2 aspect ratio.  This is the same aspect ratio
+/* /*   as a 35mm slide.
+/* /*
+/* /* dev_alias foto_render '*window* :. -root -indir -size 768 512 -pos 49 0 -name "FOTO Render"'
+/* /*
+/* /*   Render area with 4x3 aspect ratio.  This is the same aspect ratio
+/* /*   NTSC video.
+/* /*
+/* /* dev_alias foto_render '*window* :. -root -indir -size 683 512 -pos 134 0 -name "FOTO Render"'
+/*
+/* /*******************
+/* /*
+/* /*   Names for devices that are new windows on the current screen.
+/* /*
+/* /*   The window manager will be allowed to put borders around these windows.
+/* /*
+/* dev_alias small '*window* :. -root -indir -size 256 205 -pos 886 0'
+/* dev_alias small2 '*window* :. -root -indir -size 400 320 -pos 742 0'
+/* dev_alias medium '*window* :. -root -indir -size 512 410 -pos 630 0'
+/* dev_alias large '*window* :. -root -indir -size 870 870 -pos 272 0'
+/* /*
+/* /*   Names for new windows on the current screen that will not have any
+/* /*   interference from the window manager.  These may be useful for
+/* /*   debugging, and may be helpful to quickly put up some temporary graphics
+/* /*   without needing any window manager interactions.
+/* /*
+/* dev_alias s '*window* :. -root -indir -nowm -size 256 205 -pos 896 0'
+/* dev_alias m '*window* :. -root -indir -nowm -size 512 410 -pos 640 0'
+/* dev_alias l '*window* :. -root -indir -nowm -size 900 900 -pos 252 0'
+
+/*********************************************************
+/*********************************************************
+/***                                                   ***
+/***   This section is for 1024 x 768 screens.         ***
+/***   This screen size is used by SGI Starter         ***
+/***   systems and some others.                        ***
+/***                                                   ***
+/*********************************************************
+/*********************************************************
+
+/* /*******************
+/* /*
+/* /*   Device names used by FOTO.
+/* /*
+/* dev_alias foto_scene_diagram '*window* :. -root -indir -size 250 450 -pos 770 4 -name "FOTO Scene Diagram"'
+/* dev_alias foto_menu '*window* :. -root -indir -size 480 276 -pos 540 488 -name "FOTO Menu"'
+/* /*
+/* /*   Render area with 5x4 aspect ratio.  This is the same aspect ratio
+/* /*   as a 1280x1024 workstation screen and an 8x10 print.
+/* /*
+/* dev_alias foto_render '*window* :. -root -indir -size 563 450 -pos 197 4 -name "FOTO Render"'
+/* /*
+/* /*   Render area with 3x2 aspect ratio.  This is the same aspect ratio
+/* /*   as a 35mm slide.
+/* /*
+/* /* dev_alias foto_render '*window* :. -root -indir -size 675 450 -pos 85 4 -name "FOTO Render"'
+/* /*
+/* /*   Render area with 4x3 aspect ratio.  This is the same aspect ratio
+/* /*   NTSC video.
+/* /*
+/* /* dev_alias foto_render '*window* :. -root -indir -size 600 450 -pos 160 4 -name "FOTO Render"'
+/* /*
+/* /*******************
+/* /*
+/* /*   Names for devices that are new windows on the current screen.
+/* /*
+/* /*   The window manager will be allowed to put borders around these windows.
+/* /*
+/* dev_alias small '*window* :. -root -indir -size 256 205 -pos 764 30'
+/* dev_alias small2 '*window* :. -root -indir -size 400 320 -pos 620 30'
+/* dev_alias medium '*window* :. -root -indir -size 512 410 -pos 508 30'
+/* dev_alias large '*window* :. -root -indir -size 734 734 -pos 286 30'
+/* /*
+/* /*   Names for new windows on the current screen that will not have any
+/* /*   interference from the window manager.  These may be useful for
+/* /*   debugging, and may be helpful to quickly put up some temporary graphics
+/* /*   without needing any window manager interactions.
+/* /*
+/* dev_alias s '*window* :. -root -indir -nowm -size 256 205 -pos 768 0'
+/* dev_alias m '*window* :. -root -indir -nowm -size 512 410 -pos 512 0'
+/* dev_alias l '*window* :. -root -indir -nowm -size 768 768 -pos 256 0'
+
+/*********************************************************
+/*********************************************************
+/***                                                   ***
+/***   This section is for 1024 x 768 screens on       ***
+/***   Windows systems.                                ***
+/***                                                   ***
+/*********************************************************
+/*********************************************************
+
+dev_alias new small2
+dev_alias image_disp_window medium
+dev_alias small '*window* :. -root -indir -size 256 205 -pos 766 20'
+dev_alias small2 '*window* :. -root -indir -size 512 410 -pos 510 20'
+dev_alias medium '*window* :. -root -indir -size 640 512 -pos 382 20'
+dev_alias large '*window* :. -root -indir -size 746 746 -pos 276 20'

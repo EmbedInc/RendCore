@@ -1,0 +1,40 @@
+                          Program EDIT_RENDPRIMS
+                             1 September 2019
+
+edit_rendprims
+
+Scan all the .pas files in the current directory, identify which are
+RENDlib graphics primites, and possibly edit them.  Output files are also
+created:
+
+  PRIM_LIST.TXT  -  List of all the graphics primitives found.  The names
+    are from the MODULE statements.
+
+  NPRIM_LIST.TXT  -  List of all modules (not programs), that are not
+    graphics primitives.
+
+  NMOD_LIST.TXT  -  List of .pas source files that contained no MODULE
+    statement.
+
+RENDlib graphics primitive modules are identified in two ways:
+
+  1 - A line is found starting with
+
+      %include '$(REND_PRIM_INS)';
+
+    This is the "old" style used in the DSEE build system.  If found, it
+    is changed to the new style according to point 2, below.
+
+  2 - A line is found starting with
+
+      %include 'xxx_d.ins.pas';
+
+    where XXX is the module name as given in the MODULE statement.
+
+  A MODULE statement is required for a source file to be considered a
+  RENDlib graphics primitive.
+
+This program is intended to convert graphics primitive source modules from
+the old style to the new style.  It does no harm to modules that are
+already in the new style.  The program can also be useful to identify the
+graphics primitives among the various source modules in a directory.

@@ -1,0 +1,64 @@
+                        Program MAKE_REND_PRIM_INS
+                              31 August 2019
+
+make_rend_prim_ins <input file name>
+
+This program is run as part of the build process for a RENDlib graphics
+primitive.  The input file is the Pascal source module for that primitive.
+
+Each RENDlib primitive has a REND_PRIM_DATA_T (defined in REND.INS.PAS)
+data structure associated with it.  This program writes the include file
+that defines this data structure for the primitive being built.
+
+The purpose of the data structure is to ultimately indicate what use, if
+any, this primitive makes of the software bitmap.  This information can be
+used, for example, to force other primitives to use the software bitmap
+instead of directly driving rendering hardware.
+
+Each data structure indicates how, if at all, this primitive accesses the
+software bitmap directly, and what other primitives it calls.  This
+program determines this information implicitly by looking for calls thru
+the REND_PRIM, REND_SW_PRIM, REND_INTERNAL, and REND_SW_INTERNAL call
+tables.  The primitive name is taken from the MODULE statement.
+
+This program also takes information from explicit commands in the source
+module.  These commands are intended to be in comments to the compiler.
+Each such command line must start with exactly "* PRIM_DATA ", followed by
+the command name and any command parameters.  Starting with the command
+name, keywords are case-insensitive.  The commands are:
+
+  SW_READ YES|NO|INHERITED
+
+    Indicates whether this primitive directly reads from the software
+    bitmap.  If it does not, but calls other primitives, then this
+    property should be set to INHERITED.  That indicates the read access
+    to the sofware bitmap depends implicitly on other primitives called by
+    this primitive.
+
+  SW_WRITE YES|NO|INHERITED
+
+    Same as SW_READ, but applies to writing to the software bitmap instead
+    of reading from it.
+
+  PRIM_CALL name
+
+    Explicitly indicates that the primitive NAME is called by this
+    primitive.
+
+  PRIM_DATA_P pointer
+
+    Explicitly indicates that the primitive whos REND_PRIM_DATA_T
+    structure is at POINTER is called by this primitive.
+
+
+Output File
+
+  The output file is the name of the primitive as defined in the MODULE
+  statement, followed by "_d.ins.pas".  For example, the source module
+  "rend_sw_disc_2dim.pas" contains the primitive "rend_sw_disc_2dim".  The
+  command:
+
+    make_rend_prim_ins rend_sw_disc_2dim.pas
+
+  will produce the output file "rend_sw_disc_2dim_d.ins.pas", which will
+  define the data structure "rend_sw_disc_2dim_d".
