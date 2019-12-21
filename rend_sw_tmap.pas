@@ -13,14 +13,14 @@ define rend_sw_tmap_src;
 %include 'rend_sw2.ins.pas';
 %include 'math.ins.pas';
 {
-*****************************************************************************
+********************************************************************************
 *
 *   Subroutine REND_SW_TMAP_ACCUR (ACCUR)
 *
-*   Set the new texture mapping accuracy requirements level.  This may be
-*   used to allow use of hardware acceleration even though the hardware
-*   algorithm doesn't exactly match the RENDlib specification.  Use one
-*   of the constants REND_TMAPACCU_xxx_K.
+*   Set the new texture mapping accuracy requirements level.  This may be used
+*   to allow use of hardware acceleration even though the hardware algorithm
+*   doesn't exactly match the RENDlib specification.  Use one of the constants
+*   REND_TMAPACCU_xxx_K.
 }
 procedure rend_sw_tmap_accur (         {set texture mapping accuracy level}
   in      accur: rend_tmapaccu_k_t);   {new accuracy mode, use REND_TMAPACCU_xxx_K}
@@ -35,22 +35,21 @@ begin
     end;
   end;
 {
-*****************************************************************************
+********************************************************************************
 *
 *   Subroutine REND_SW_TMAP_CHANGED
 *
-*   Notify RENDlib that one or more of the pixel values of the texture
-*   map may have gotten altered.  This call *MUST* be used after any texture
-*   map pixels are changed, and before the next texture mapping drawing
-*   operation is performed.  The results are unpredictable when this is not
-*   done.
+*   Notify RENDlib that one or more of the pixel values of the texture map may
+*   have gotten altered.  This call *MUST* be used after any texture map pixels
+*   are changed, and before the next texture mapping drawing operation is
+*   performed.  The results are unpredictable when this is not done.
 }
 procedure rend_sw_tmap_changed;        {indicate that texture map data got changed}
 
 begin
   end;
 {
-*****************************************************************************
+********************************************************************************
 *
 *   Subroutine REND_SW_TMAP_DIMENSION (LEVEL)
 *
@@ -70,19 +69,19 @@ begin
     end;
   end;
 {
-*****************************************************************************
+********************************************************************************
 *
 *   Subroutine REND_SW_TMAP_FLIMS (MIN_SIZE, MAX_SIZE)
 *
 *   Set the minimum and maximum allowable texture maps to select.  The two call
-*   parameters are floating point and refer to the width of the texture maps
-*   in pixels.  When the texture mapping method is mip mapping, then all texture
+*   parameters are floating point and refer to the width of the texture maps in
+*   pixels.  When the texture mapping method is mip mapping, then all texture
 *   maps must be power of 2 sizes.  The max(abs()) of all the texture index
 *   interpolant first derivatives (dU/dX, dU/dY, dV/dX, . . .) is used to select
-*   the appropriate texture source map to achieve the correct level of filtering.
-*   This subroutine sets the constraints on that selection.  It can be used, for
-*   example, to always force the selection of only one texture map, regardless of
-*   the first derivatives.
+*   the appropriate texture source map to achieve the correct level of
+*   filtering.  This subroutine sets the constraints on that selection.  It can
+*   be used, for example, to always force the selection of only one texture map,
+*   regardless of the first derivatives.
 }
 procedure rend_sw_tmap_flims (         {set limits on texture mapping filtering}
   in      min_size: real;              {min size map to use, in pixels accross}
@@ -114,7 +113,7 @@ rend_tmapm_mip_k: begin                {overal method is mip-mapping}
     end;                               {end of overall texture mapping method cases}
   end;
 {
-*****************************************************************************
+********************************************************************************
 *
 *   Subroutine REND_SW_TMAP_FILT (FILT)
 *
@@ -134,13 +133,13 @@ begin
     end;
   end;
 {
-*****************************************************************************
+********************************************************************************
 *
 *   Subroutine REND_SW_TMAP_FUNC (FUNC)
 *
-*   Select a new current texture mapping function.  FUNC is the function ID number.
-*   These are defined by constants of the name REND_TMAPF_xx_K in the include file
-*   rend.ins.pas.
+*   Select a new current texture mapping function.  FUNC is the function ID
+*   number.  These are defined by constants of the name REND_TMAPF_xx_K in the
+*   include file rend.ins.pas.
 }
 procedure rend_sw_tmap_func (          {set texture mapping function}
   in      func: rend_tmapf_k_t);       {ID number for new texture mapping function}
@@ -155,7 +154,7 @@ begin
     end;
   end;
 {
-*****************************************************************************
+********************************************************************************
 *
 *   Subroutine REND_SW_TMAP_METHOD (METHOD)
 *
@@ -174,7 +173,7 @@ begin
     end;
   end;
 {
-*****************************************************************************
+********************************************************************************
 *
 *   Subroutine REND_SW_TMAP_ON (ON)
 *
@@ -190,14 +189,14 @@ begin
   rend_internal.check_modes^;          {may need to load in different routines}
   end;
 {
-*****************************************************************************
+********************************************************************************
 *
 *   Subroutine REND_SW_TMAP_SRC (
 *     ITERP, BITMAP, OFFSET, X_SIZE, Y_SIZE, X_ORIG, Y_ORIG)
 *
-*   Define the source of a texture map for this interpolant.  ITERP identifies the
-*   interpolant.  BITMAP is the handle to the bitmap containing the texture map.
-*   OFFSET is the byte offset for this interpolant into each pixel of the
+*   Define the source of a texture map for this interpolant.  ITERP identifies
+*   the interpolant.  BITMAP is the handle to the bitmap containing the texture
+*   map.  OFFSET is the byte offset for this interpolant into each pixel of the
 *   bitmap.  X_SIZE and Y_SIZE is the size of the texture map in pixels.  X_ORIG
 *   and Y_ORIG is the origin of the texture map within the bitmap.  Therefore,
 *   X_ORIG and Y_ORIG are 0,0 if the texture map is justified in the top left
@@ -206,9 +205,9 @@ begin
 *   To disable the texture map of this size for this interpolant, specify nil
 *   for BITMAP.
 *
-*   If the global texture mapping method is mip-mapping, then the texture map must
-*   be square (X_SIZE = Y_SIZE), and its size must be a power of 2 pixels in each
-*   dimension.
+*   If the global texture mapping method is mip-mapping, then the texture map
+*   must be square (X_SIZE = Y_SIZE), and its size must be a power of 2 pixels
+*   in each dimension.
 }
 procedure rend_sw_tmap_src (           {set texture map source for this interpolant}
   in      iterp: rend_iterp_k_t;       {ID of interpolant to set texmap source for}

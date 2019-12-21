@@ -32,22 +32,22 @@ const
   rend_iterp_mode_quad_k = 2;          {quadratic (second order) interpolation}
 {
 *   Number of distinct CIRRES parameters maintained.  Each cirres (circle
-*   resolution) parameter specifies the minimum number of line segments that
-*   are allowed to approximate a full circle.  These values effect tessilation
+*   resolution) parameter specifies the minimum number of line segments that are
+*   allowed to approximate a full circle.  These values effect tessilation
 *   "fineness".  There are 1 thru REND_LAST_CIRRES_K independent CIRRES values
 *   maintained.  Some primitives may allow different tessilation levels along
 *   different dimensions.  CIRRES 1 is for the first or "major" axis, CIRRES 2
 *   for the secondary axis, if any, etc.  For example, sphere tessilation is
-*   governed only by CIRRES 1, whereas torus tessilation would be governed
-*   by CIRRES 1 and 2.
+*   governed only by CIRRES 1, whereas torus tessilation would be governed by
+*   CIRRES 1 and 2.
 }
   rend_last_cirres_k = 3;              {CIRRES values 1-3 are maintained}
 
 type
   rend_iterp_mode_k_t = sys_int_machine_t;
 {
-*   The following constants identify particular interpolants.  Any changes
-*   to this list must also be made to REND_ITERPS_T in REND_SW.INS.PAS.
+*   The following constants identify particular interpolants.  Any changes to
+*   this list must also be made to REND_ITERPS_T in REND_SW.INS.PAS.
 }
   rend_iterp_k_t = (
     rend_iterp_red_k,                  {red}
@@ -97,10 +97,11 @@ type
 *   No. 3, July 1984, pages 253-259.
 *
 *   The names are from the table on page 256, assuming that the new interpolated
-*   value is image A, and the existing image is image B.  The letter "R" in front
-*   of the name stands for "reverse" and is used when image B is said to apply to
-*   image A.  For example our name "over" is the function called "A over B" in the
-*   table.  Our name "rover" is the function called "B over A" in the table.
+*   value is image A, and the existing image is image B.  The letter "R" in
+*   front of the name stands for "reverse" and is used when image B is said to
+*   apply to image A.  For example our name "over" is the function called "A
+*   over B" in the table.  Our name "rover" is the function called "B over A" in
+*   the table.
 }
   rend_afunc_k_t = (
     rend_afunc_clear_k,                {val = NEW(0) + OLD(0)}
@@ -123,8 +124,9 @@ type
     rend_iterp_step_b_k,               {edge or vector step in Bresenham B direction}
     rend_iterp_step_h_k);              {horizontal step in trapezoid span}
 {
-*   Mnemonic names for identifying a particular coordinate space in the rendering
-*   pipe.  The floating point coordinate spaces must be in a contiguous block.
+*   Mnemonic names for identifying a particular coordinate space in the
+*   rendering pipe.  The floating point coordinate spaces must be in a
+*   contiguous block.
 }
   rend_space_k_t = (
     rend_space_none_k,                 {no space specified, feature not used}
@@ -154,9 +156,10 @@ type
     rend_end_style_rect_k,             {straight rectangular cutoff}
     rend_end_style_circ_k);            {semicircular}
 {
-*   Mnemonic names for identifying a point associated with a text string.
-*   These points are the corners, edge centers, and middle of the box around the text
-*   string.  The current point usually starts out and is left at one of these points.
+*   Mnemonic names for identifying a point associated with a text string.  These
+*   points are the corners, edge centers, and middle of the box around the text
+*   string.  The current point usually starts out and is left at one of these
+*   points.
 }
   rend_torg_k_t = (
     rend_torg_ul_k,                    {upper left}
@@ -256,9 +259,9 @@ const
 
 type
 {
-*   Mnemonic names for describing what what kind of access each primitive requires
-*   of the software bitmap.  They must be in order so that if more than one type of
-*   access occurs, the higher number is reported.
+*   Mnemonic names for describing what what kind of access each primitive
+*   requires of the software bitmap.  They must be in order so that if more than
+*   one type of access occurs, the higher number is reported.
 }
   rend_access_k_t = (
     rend_access_inherited_k,           {access is inherited from called routines}
@@ -279,8 +282,8 @@ type
     rend_laccu_exact_k,                {exact, SW device is the reference}
     rend_laccu_dev_k);                 {approximations OK if allows faster HW use}
 {
-*   Mnemonics names to declare scope when allocating memory with RENDlib.
-*   This effects when, if ever, RENDlib will automatically deallocate the memory.
+*   Mnemonics names to declare scope when allocating memory with RENDlib.  This
+*   effects when, if ever, RENDlib will automatically deallocate the memory.
 }
   rend_scope_t = (
     rend_scope_sys_k,                  {above RENDlib, not released automatically}
@@ -307,7 +310,7 @@ type
     rend_vert3d_ncache_p_k,            {pointer to shading normal vector cache}
     rend_vert3d_spokes_p_k);           {pointer to spokes list to make shading normal}
 {
-*   Mnemonics for special RENDlib key IDs.
+*   Mnemonics for special RENDlib keyboard (and other) key IDs.
 }
 const
   rend_key_none_k = 0;                 {specifically indicates no key}
@@ -316,9 +319,9 @@ type
 {
 *   Mnemonics for RENDlib pre-defined special keys that are referenced by their
 *   function.  These keys can be "found" more quickly and simply than arbitrary
-*   explicit keys.  A particular special key is usually specified by one of
-*   the mnemonics here (except REND_KEY_SP_NONE_K), and some additional data.
-*   This is all bound together in REND_KEY_SP_DATA_T.
+*   explicit keys.  A particular special key is usually specified by one of the
+*   mnemonics here (except REND_KEY_SP_NONE_K), and some additional data.  This
+*   is all bound together in REND_KEY_SP_DATA_T.
 }
   rend_key_sp_k_t = (                  {IDs for special but common keys}
     rend_key_sp_none_k,                {not a RENDlib special key}
@@ -329,7 +332,7 @@ type
     rend_key_sp_arrow_up_k,
     rend_key_sp_arrow_down_k);
 {
-*   Mnemonics for all the modifier keys.  These keys modify the behaviour of
+*   Mnemonics for all the modifier keys.  These keys modify the behavior of
 *   other keys.
 }
   rend_key_mod_k_t = (                 {IDs for each of the possible modifier keys}
@@ -380,12 +383,12 @@ type
   rend_axes_t =                        {set of all major coordinate axes}
     set of rend_axis_k_t;
 {
-*   Mnemonic names for the benchmark flags.  These flags can be accessed
-*   by the application with explicit SET/GET calls, and are automatically
-*   initialized from the environment variable RENDLIB_BENCH.  These flags
-*   should all be disabled for normal operation.  The flags are intended
-*   to help in timing tests to determine how long it takes to perform
-*   specific parts of operations that are otherwise indivisible.
+*   Mnemonic names for the benchmark flags.  These flags can be accessed by the
+*   application with explicit SET/GET calls, and are automatically initialized
+*   from the environment variable RENDLIB_BENCH.  These flags should all be
+*   disabled for normal operation.  The flags are intended to help in timing
+*   tests to determine how long it takes to perform specific parts of operations
+*   that are otherwise indivisible.
 }
   rend_bench_k_t = (                   {ID for each benchmark flag}
     rend_bench_dumprim_k,              {RENDlib primitives just return}
@@ -400,9 +403,7 @@ type
 }
   rend_dev_id_t = sys_int_machine_t;   {user handle to a RENDlib device}
 
-  rend_prim_data_pp_t =                {pointer to data block pointer in call table}
-    ^rend_prim_data_p_t;
-
+  rend_prim_data_pp_t = ^rend_prim_data_p_t;
   rend_prim_data_p_t = ^rend_prim_data_t;
   rend_prim_data_t = record            {data block for each PRIM call table entry}
     call_adr: univ_ptr;                {entry point address for this primitive}
@@ -447,7 +448,7 @@ type
   rend_text_parms_t = record           {state controlling how text is drawn}
     size: real;                        {overall absolute character cell size}
     width: real;                       {relative character cell width}
-    height: real;                      {relative character cell height}
+    height: real;                      {relative character cell height, usually 1.0}
     slant: real;                       {radians clockwise character slant}
     rot: real;                         {radians counter-clockwise rotation}
     lspace: real;                      {space between lines is (LSPACE * SIZE)}
@@ -464,17 +465,13 @@ type
 
   rend_bitmap_handle_t = univ_ptr;     {user handle to a bitmap}
 
+  rend_int_ar_p_t = ^rend_int_ar_t;
   rend_int_ar_t =                      {for variable length integer array call args}
     array[1..1] of sys_int_machine_t;
 
-  rend_int_ar_p_t =                    {pointer to array of integers}
-    ^rend_int_ar_t;
-
+  rend_real_ar_p_t = ^rend_real_ar_t;
   rend_real_ar_t =                     {for variable length real array call args}
     array[1..1] of real;
-
-  rend_real_ar_p_t =                   {pointer to array of scalar real numbers}
-    ^rend_real_ar_t;
 
   rend_2dverts_t =                     {array of 2D polygon verticies}
     array[1..rend_max_verts] of vect_2d_t;
@@ -509,8 +506,8 @@ type
     u, v, w: single;
     end;
 
-  rend_light_p_t = ^rend_light_t;
   rend_light_pp_t = ^rend_light_p_t;
+  rend_light_p_t = ^rend_light_t;
   rend_light_t = record                {internal light source descriptor}
     next_p: rend_light_p_t;            {pointer to next descriptor in chain}
     prev_pp: rend_light_pp_t;          {point to previous lsource's NEXT_P}
@@ -592,7 +589,7 @@ rend_ltype_pr2_k: (                    {point light source, 1/R**2 falloff}
   rend_ncache_flags_t = packed record case integer of {combined flags word for ncache}
     1:(                                {separate fields}
       unitized: 0..1;                  {1 means normal vector is of unit length}
-      version: -1073741824..1073741823); { = REND_NCACHE_VERSION for validity}
+      version: -1073741824..1073741823); {= REND_NCACHE_VERSION for validity}
     2:(                                {all the fields together}
       all: integer32);
     end;
@@ -611,6 +608,7 @@ rend_ltype_pr2_k: (                    {point light source, 1/R**2 falloff}
     cent_p: rend_vert3d_p_t;           {points to center vertex for this V}
     end;
 
+  rend_spokes_p_t = ^rend_spokes_t;
   rend_spokes_t = record               {set of spokes used to make a shading normal}
     max_ind: 0..65535;                 {MAX valid V array index}
     loop: boolean;                     {TRUE if last and first vertex make a V}
@@ -618,25 +616,18 @@ rend_ltype_pr2_k: (                    {point light source, 1/R**2 falloff}
       array[0..0] of rend_spokes_ent_t; {valid array indicies are 0..MAX_IND}
     end;
 
-  rend_spokes_p_t =                    {pointer to normal vector spokes list}
-    ^rend_spokes_t;
-
   rend_spokes_flip_bits_word_t =       {one word of flip bits}
     integer32;                         {1 - flipped, 0 = not flipped for each bit}
 
+  rend_spokes_flip_ar_p_t = ^rend_spokes_flip_ar_t;
   rend_spokes_flip_ar_t =              {flip flag for each V in spokes list}
     array[0..0] of rend_spokes_flip_bits_word_t; {one element for each 32 flip bits}
 
-  rend_spokes_flip_ar_p_t =            {pointer to per-V flip flags array}
-    ^rend_spokes_flip_ar_t;
-
+  rend_spokes_lists_p_t = ^rend_spokes_lists_t;
   rend_spokes_lists_t = record         {all the spokes sets for one node}
     n: sys_int_machine_t;              {number of spokes sets}
     first_set: rend_spokes_t;          {first set, var len, others follow directly}
     end;
-
-  rend_spokes_lists_p_t =              {pointer to all spokes sets data of one node}
-    ^rend_spokes_lists_t;
 
   rend_v_list_ent_t = record           {descriptor for one V in V list}
     v1_p: rend_vert3d_p_t;             {pointers to the "other" verts in any order}
@@ -687,6 +678,7 @@ rend_ltype_pr2_k: (                    {point light source, 1/R**2 falloff}
     red, grn, blu: real;
     end;
 
+  rend_suprop_p_t = ^rend_suprop_t;
   rend_suprop_t = record               {visual properties of a surface}
     emis: rend_rgb_t;                  {emissive color}
     diff: rend_rgb_t;                  {diffuse color}
@@ -701,9 +693,6 @@ rend_ltype_pr2_k: (                    {point light source, 1/R**2 falloff}
     trans_on: boolean;                 {TRUE if transparency on}
     spec_on: boolean;                  {TRUE if specular reflection on}
     end;
-
-  rend_suprop_p_t =                    {pointer to a visual properties state block}
-    ^rend_suprop_t;
 
   rend_cmodes_list_t =                 {max list of automatically changeable modes}
     array[1..rend_n_cmodes_k] of rend_cmode_k_t;
@@ -744,12 +733,12 @@ rend_ltype_pr2_k: (                    {point light source, 1/R**2 falloff}
     val_param;
 {
 *   Data structures for tube crossections.  These data structures are private to
-*   RENDlib and should not be used directly by applications programs.  Application
-*   programs should only use REND_XSEC_P_T.  The internal format of crossection
-*   descriptors may change without notice.
+*   RENDlib and should not be used directly by applications programs.
+*   Application programs should only use REND_XSEC_P_T.  The internal format of
+*   crossection descriptors may change without notice.
 *
-*   Crossections should be defined counter-clockwise around the origin.
-*   By convention, they are usually scaled to a "radius" of 1.0.  Additional
+*   Crossections should be defined counter-clockwise around the origin.  By
+*   convention, they are usually scaled to a "radius" of about 1.0.  Additional
 *   scaling is available when the crossection is actually used.
 }
   rend_xsecpnt_flag_k_t = (            {individual flags stored at each xsec point}
@@ -759,9 +748,7 @@ rend_ltype_pr2_k: (                    {point light source, 1/R**2 falloff}
   rend_xsecpnt_flag_t =                {all the xsec point flags in one word}
     set of rend_xsecpnt_flag_k_t;
 
-  rend_xsec_point_p_t =                {points to data about one crossection point}
-    ^rend_xsec_point_t;
-
+  rend_xsec_point_p_t = ^rend_xsec_point_t;
   rend_xsec_point_t = record           {one point in internal crossection descriptor}
     next_p: rend_xsec_point_p_t;       {points to next xsec point in sequence}
     prev_p: rend_xsec_point_p_t;       {points to previous xsec point in sequence}
@@ -778,6 +765,7 @@ rend_ltype_pr2_k: (                    {point light source, 1/R**2 falloff}
   rend_xsec_flag_t =                   {all the crossection flags in one word}
     set of rend_xsec_flag_k_t;
 
+  rend_xsec_p_t = ^rend_xsec_t;
   rend_xsec_t = record                 {data for whole crossection definition}
     n: sys_int_machine_t;              {number of points in crossection}
     first_p: rend_xsec_point_p_t;      {points to first crossection point descriptor}
@@ -786,17 +774,15 @@ rend_ltype_pr2_k: (                    {point light source, 1/R**2 falloff}
     flags: rend_xsec_flag_t;           {set of individual one-bit flags}
     end;
 {
-*   End of RENDlib private data structures.
+*   End of crossection data structures.
 }
-  rend_xsec_p_t =                      {pointer to a crossection definition}
-    ^rend_xsec_t;
-
   rend_tblen_shade_k_t = (             {shading rule along length of a tube}
     rend_tblen_shade_curr_k,           {use current RENDlib global shading rule}
     rend_tblen_shade_facet_k,          {facet shade the tube lengthwise}
     rend_tblen_shade_endplane_k,       {shade norms will be in plane of segment ends}
     rend_tblen_shade_smooth_k);        {blend shading normals between tube segments}
 
+  rend_tube_point_p_t = ^rend_tube_point_t;
   rend_tube_point_t = record           {data for one point along path of a tube}
     coor_p: vect_3d_fp1_p_t;           {points to XYZ coordinate}
     xb, yb, zb: vect_3d_t;             {basis vectors for end plane and end cap}
@@ -807,14 +793,11 @@ rend_ltype_pr2_k: (                    {point light source, 1/R**2 falloff}
     rad0: boolean;                     {TRUE if tube "radius" definately zero here}
     end;
 
-  rend_tube_point_p_t =                {pointer to data for one tube path point}
-    ^rend_tube_point_t;
-
   rend_tbcap_k_t = (                   {cap style for ends of extruded tube}
     rend_tbcap_none_k,                 {no cap, leave end open}
     rend_tbcap_flat_k);                {cap with flat polygon in end plane}
 {
-*********************************************
+****************************************
 *
 *   Event-related data structures.
 }
@@ -829,6 +812,7 @@ rend_ltype_pr2_k: (                    {point light source, 1/R**2 falloff}
 
   rend_devkey_id_t = sys_int_machine_t; {RENDlib ID for input device containing keys}
 
+  rend_key_p_t = ^rend_key_t;
   rend_key_t = record                  {data about one key}
     id: rend_key_id_t;                 {ID for this key, 1-N keys array index}
     req: boolean;                      {TRUE if events for this key requested}
@@ -845,14 +829,9 @@ rend_ltype_pr2_k: (                    {point light source, 1/R**2 falloff}
       of string_var_p_t;
     end;
 
-  rend_key_p_t =                       {pointer to one key descriptor}
-    ^rend_key_t;
-
+  rend_key_ar_p_t = ^rend_key_ar_t;
   rend_key_ar_t =                      {array of key descriptors}
     array[1..1] of rend_key_t;         {array index is same as RENDlib key ID}
-
-  rend_key_ar_p_t =                    {pointer to array of key descriptors}
-    ^rend_key_ar_t;
 
   rend_event_wiped_rect_t = record     {data for WIPED_RECT event}
     bufid: sys_int_machine_t;          {ID of effected buffer for double buffering}
@@ -905,7 +884,7 @@ rend_ltype_pr2_k: (                    {point light source, 1/R**2 falloff}
     f1, f2, f3: real;                  {arbitrary floating point numbers}
     end;
 
-  rend_evcall_p_t = ^procedure (       {routine called by a CALL event}
+  rend_evcall_p_t = ^procedure (       {routine for CALL event to call}
     in  ev_p: rend_event_p_t);         {event that caused routine to be called}
     val_param;
 
@@ -964,9 +943,10 @@ rend_ev_call_k: (                      {transparently call routine}
     rend_pntmode_dolly_k,              {pnt Y translates observer in/out}
     rend_pntmode_rot_k);               {as if pointer moving front of virtual sphere}
 {
-**************************************************************************************
+********************************************************************************
 *
-*   Here are all the entry point definitions for the graphics primitive routines.
+*   Graphics primitives entry point definitions.
+*
 *   This is the complete list of routines that cause drawing to happen.  As much
 *   as possible, these routines are only passed the geometric information about
 *   the drawing, and modes and modifiers come from the current state.
@@ -1253,12 +1233,13 @@ wpix: ^procedure;                      {write current value at current pixel}
 
     end;
 {
-**************************************************************************************
+********************************************************************************
 *
-*   Here are all the entry point definitions for the routines that modify
-*   the current state.  As much as possible, these cause no drawing to happen, but
-*   will have effect on how future drawing is performed.  "State" refers to all the
-*   current modes and switches not including any direct bitmap data.
+*   State-setting entry point definitions.
+*
+*   As much as possible, these cause no drawing to happen, but will effect how
+*   future drawing is performed.  "State" refers to all the current modes and
+*   switches not including any direct bitmap data.
 }
   rend_set_t = record
 
@@ -1718,7 +1699,7 @@ rcpnt_3dpl: ^procedure (               {set current point with relative coordina
   val_param;
 
 rgb: ^procedure (                      {set flat RGB color}
-  in      r, g, b: real);              {0.0-1.0 red, green, blue color values}
+  in      r, g, b: real);              {red, green, blue color values, 0.0 to 1.0}
   val_param;
 
 rgbz_linear: ^procedure (              {set linear values for RGBZ interpolants}
@@ -1942,10 +1923,11 @@ z_range: ^procedure (                  {set 3DW space to full Z buffer range map
 
     end;
 {
-***************************************************************************************
+********************************************************************************
 *
-*   Here are all the entry points that return information, usually about the current
-*   state.  These calls are all guaranteed not to alter any RENDlib internal state.
+*   State-getting entry point definitions.
+*
+*   These calls are all guaranteed not to alter any RENDlib internal state.
 }
   rend_get_t = record
 
@@ -2261,7 +2243,7 @@ z_clip: ^procedure (                   {get current 3DW space Z clipping limits}
 
   end;
 {
-******************************************
+********************************************************************************
 *
 *   Common block to hold the current set of pointers to the various graphics function
 *   routines.
@@ -2273,9 +2255,12 @@ var (rend)
   rend_get: rend_get_t;                {entry points that return information}
   rend_com_end: sys_int_machine_t;     {to enable finding size of common block}
 {
-******************************************
+********************************************************************************
 *
 *   Direct entry points that need to be globally known.
+*
+*
+****************************************
 *
 *   RENDlib control routines:
 }
@@ -2294,8 +2279,9 @@ procedure rend_dev_set (               {swap in new device, ENTER_LEVEL will be 
 
 procedure rend_end;                    {completely exit RENDlib, close all devices}
   extern;
-
 {
+****************************************
+*
 *   Utility routines that can effect RENDlib internally.
 }
 procedure rend_mem_alloc (             {get memory under specific memory context}
@@ -2353,8 +2339,9 @@ procedure rend_message_bomb (          {close RENDlib, print message, then bomb}
   in      parms: univ sys_parm_msg_ar_t; {array of parameter descriptors}
   in      n_parms: sys_int_machine_t); {number of parameters in PARMS}
   options (extern, val_param, noreturn);
-
 {
+****************************************
+*
 *   Utility routines that are "external" to the rest of RENDlib.  These don't
 *   effect any internal RENDlib state.
 }

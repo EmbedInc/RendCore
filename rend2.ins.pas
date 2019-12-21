@@ -1,39 +1,43 @@
 {   Private include file for all REND routines.  All the data structures and
-*   entry points that are private and deal with the layer above the device drivers
-*   are here.
+*   entry points that are private and deal with the layer above the device
+*   drivers are here.
 *
 *   About RENDlib's top level:
 *
 *     RENDlib's top level is a layer above any particular device drivers.  The
 *     common block defined here always contains valid data after the REND_START
-*     call, whether any device has been opened or not.  One important reason that
-*     RENDlib needs to know about all graphics connections that have been opened
-*     is for proper handling of asynchronous events, such as window shakeups.
-*     An asynchonous event may happen when the RENDlib context for that device
-*     is swapped out.  Therefore, a top layer needs to be able to save the current
-*     state, identify and swap in the state of the device with the event, call
-*     the user, restore the state, and return.  This can only be done if some
-*     global state exists for all the devices.  This include file declares the
-*     common block and associated information for that global state.
-*     NOTE:  Only the bare minimum device state that really needs to be visible
+*     call, whether any device has been opened or not.  One important reason
+*     that RENDlib needs to know about all graphics connections that have been
+*     opened is for proper handling of asynchronous events, such as window
+*     shakeups.  An asynchonous event may happen when the RENDlib context for
+*     that device is swapped out.  Therefore, a top layer needs to be able to
+*     save the current state, identify and swap in the state of the device with
+*     the event, call the user, restore the state, and return.  This can only be
+*     done if some global state exists for all the devices.  This include file
+*     declares the common block and associated information for that global
+*     state.
+*
+*     NOTE: Only the bare minimum device state that really needs to be visible
 *     about a swapped out device should be kept here.  Any other per-device
 *     state should go either in REND_SW.INS.PAS if it is needed for all devices,
 *     or in REND_xxx.ins.pas if it is specific to a particular device.
 *
 *   About RENDlib memory allocation:
 *
-*     RENDlib occasionally needs to dynamically allocate memory, either for internal
-*     reasons or directly due to a user request.  This memory can be allocated
-*     from different scopes: system, RENDlib top level, or a specific RENDlib
-*     open device.  See the constants REND_SCOPE_xxx_K in REND.INS.PAS.
+*     RENDlib occasionally needs to dynamically allocate memory, either for
+*     internal reasons or directly due to a user request.  This memory can be
+*     allocated from different scopes: system, RENDlib top level, or a specific
+*     RENDlib open device.  See the constants REND_SCOPE_xxx_K in REND.INS.PAS.
+*
 *     The effective difference between these is when, if ever, RENDlib will
-*     automatically deallocate this memory.  System memory is never automatically
-*     deallocated by RENDlib.  RENDlib top level memory is assumed to have a scope
-*     tied to the current RENDlib invocation, but above any specific device.
-*     An example might be a RENDlib bitmap that is shared between devices.  Such
-*     memory is automatically deallocated when REND_END is called.  RENDlib device
-*     memory is assumed to be associated only with a particular device, and is
-*     therefore automatically deallocated when REND_SET.CLOSE is called.
+*     automatically deallocate this memory.  System memory is never
+*     automatically deallocated by RENDlib.  RENDlib top level memory is assumed
+*     to have a scope tied to the current RENDlib invocation, but above any
+*     specific device.  An example might be a RENDlib bitmap that is shared
+*     between devices.  Such memory is automatically deallocated when REND_END
+*     is called.  RENDlib device  memory is assumed to be associated only with a
+*     particular device, and is therefore automatically deallocated when
+*     REND_SET.CLOSE is called.
 }
 %include 'sys.ins.pas';
 %include 'util.ins.pas';

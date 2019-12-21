@@ -1,6 +1,6 @@
 {   This include file defines the data structures and common block used by all
-*   the software-only REND library routines.  It will probably also be used by most
-*   device-specific drivers.
+*   the software-only REND library routines.  It will probably also be used by
+*   most device-specific drivers.
 }
 const
   rend_max_lines = 8192;               {max scan lines allowed in an image}
@@ -26,8 +26,9 @@ const
   rend_clmask_rx_k = 8;                {clip mask value for past right X}
   rend_clmask_fz_k = 16;               {clip mask value for past far Z}
   rend_clmask_nz_k = 32;               {clip mask value for past near Z}
-{
-*   Declare data types that depend on processor byte order.
+
+
+{   Declare data types that depend on processor byte order.
 }
 %include 'rend_sw_sys.ins.pas';
 
@@ -446,7 +447,7 @@ rend_tmapm_mip_k: (                    {method is MIP MAPPING}
     x, y: sys_int_machine_t;           {pointer coordinates within this device}
     root_x, root_y: sys_int_machine_t; {pointer coordinates relative to root device}
     inside: boolean;                   {TRUE if pointer within drawing area}
-    root_inside: boolean;              {TRUE if pointer on root deviced}
+    root_inside: boolean;              {TRUE if pointer on root device}
     end;
 {
 *   Define the template of the transfer vector for internal functions.
@@ -502,7 +503,7 @@ update_rect: ^procedure (              {update device rectangle from SW bitmap}
 
     end;
 {
-*   Done defining INTERNAL call table.
+*   Internal state.
 }
 var (rend_sw)
   rend_sw_com_start: sys_int_machine_t; {for finding address of common block}
@@ -615,7 +616,7 @@ var (rend_sw)
 
   rend_sw_com_end: sys_int_machine_t;  {for finding length of common block}
 {
-*************************************************
+********************************************************************************
 *
 *   Entry points for SW driver utility routines.
 }
@@ -661,7 +662,7 @@ procedure rend_sw_mipmap_table_init (  {init mip-map adjacent map blending table
 procedure rend_sw_update_xf2d;         {update the internal 2D transform}
   extern;
 {
-*************************************************
+********************************************************************************
 *
 *   Entry points for SW driver GET routines.
 }
@@ -956,7 +957,7 @@ procedure rend_sw_get_z_clip (         {get current 3DW space Z clipping limits}
   out     near, far: real);            {Z limits, normally NEAR > FAR}
   extern;
 {
-*************************************************
+********************************************************************************
 *
 *   Entry points for SW driver SET routines.
 }
@@ -1588,7 +1589,7 @@ procedure rend_sw_z_range (            {set 3DW space to full Z buffer range map
   in      far: real);                  {3DW Z coordinate of Z buffer -1.0 value}
   val_param; extern;
 {
-*************************************************
+********************************************************************************
 *
 *   Entry points for SW driver PRIM routines.
 }
@@ -1855,7 +1856,7 @@ procedure rend_sw_vect_2dimi (         {integer 2D image space vector}
 procedure rend_sw_wpix;                {write current value at current pixel}
   extern;
 {
-*************************************************
+********************************************************************************
 *
 *   Entry points for SW driver routines that go into the INTERNAL call table.
 }
@@ -2029,8 +2030,8 @@ function rend_sw_get_ray_callback      {return current ray callback entry point}
   :rend_raytrace_p_t;                  {routine pointer or NIL for none}
   extern;
 {
-*   Dummy routines that may be installed into the call tables, usually
-*   due to REND_BENCH flag settings.
+*   Dummy routines that may be installed into the call tables, usually due to
+*   REND_BENCH flag settings.
 }
 procedure rend_dummy_poly_2d (         {convex polygon}
   in      n: sys_int_machine_t;        {number of verticies in VERTS}
