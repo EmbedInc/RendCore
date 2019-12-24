@@ -25,7 +25,7 @@ procedure rend_sw_tri_cache_ray_3d (   {3D triangle, explicit caches for each ve
   val_param;
 
 var
-  tri: type1_tri_user_data_t;          {input data for ray TRI object}
+  tri: type1_tri_crea_data_t;          {creation data for ray TRI object}
   nv2, nv: vect_3d_t;                  {scratch shading normal vector}
   w: real;                             {scale factor for unitizing shading normal}
   obj_p: ray_object_p_t;               {pointer to object we will create}
@@ -360,7 +360,6 @@ no_shnorm3:
   if obj_p^.data_p <> nil then begin   {triangle not punted by TRI create routines ?}
     rend_ray.top_obj.routines_p^.add_child^ ( {add new triangle as child to top object}
       rend_ray.top_obj,                {aggregate object to add triangle to}
-      obj_p^,                          {object to be added}
-      0);                              {optional parameters, unused by OCTREE object}
+      obj_p^);                         {object to be added}
     end;
   end;

@@ -26,7 +26,7 @@ procedure rend_sw_sphere_ray_3d (      {draw a sphere, saves prim for ray tracin
   val_param;
 
 var
-  sph: type1_sphere_user_data_t;       {data for creating a SPHERE ray tracer object}
+  sph: type1_sphere_crea_data_t;       {data for creating a SPHERE ray tracer object}
   obj_p: ray_object_p_t;               {pointer to object we will create}
   stat: sys_err_t;
 
@@ -73,8 +73,7 @@ begin
 
   rend_ray.top_obj.routines_p^.add_child^ ( {add new sphere as child to top object}
     rend_ray.top_obj,                  {aggregate object to add sphere to}
-    obj_p^,                            {object to be added}
-    0);                                {optional parameters, unused by OCTREE object}
+    obj_p^);                           {object to be added}
 {
 *   The sphere has been successfully added to the top ray tracer aggregate
 *   object.

@@ -1,10 +1,9 @@
-{   Subroutine REND_SW_RAY_TRACE_2DIMI (IDX,IDY)
+{   Subroutine REND_SW_RAY_TRACE_2DIMI (IDX, IDY)
 *
-*   Ray trace a relative rectangle from the current point.
-*   IDX and IDY are the signed width and height.  The signs of IDX and IDY
-*   indicate the direction the rectangle is to extend from the current point.
-*   A size of 0,0 draws nothing, and a size of 1,1 (or -1,-1) draws the
-*   current point.
+*   Ray trace a relative rectangle from the current point.  IDX and IDY are the
+*   signed width and height.  The signs of IDX and IDY indicate the direction
+*   the rectangle is to extend from the current point.  A size of 0,0 draws
+*   nothing, and a size of 1,1 (or -1,-1) draws the current point.
 }
 module rend_sw_ray_trace_2dimi;
 define rend_sw_ray_trace_2dimi;
@@ -48,22 +47,23 @@ var
   msg_parm:                            {parameter references for messages}
     array[1..max_msg_parms] of sys_parm_msg_t;
 {
-*************************************************
+********************************************************************************
 *
 *   Local subroutine WRITE_PIXEL
 *
 *   Write the current pixel, if appropriate.  The current integer pixel
-*   coordinate is REND_CURR_X, REND_LEAD_EDGE.Y.  The red, green, blue,
-*   Z, and alpha interpolant value will be overwritten with the ray values
-*   for each pixel.
+*   coordinate is REND_CURR_X, REND_LEAD_EDGE.Y.  The red, green, blue, Z, and
+*   alpha interpolant value will be overwritten with the ray values for each
+*   pixel.
 *
-*   The static part of the ray descriptor has already be initialized.
-*   These are the BASE and GENERATION fields.  We must fill in all the
-*   other fields here.
+*   The static part of the ray descriptor has already be initialized.  These are
+*   the BASE and GENERATION fields.  We must fill in all the other fields here.
 *
-*   To minimize floating point precision problems, the ray start point
-*   will be projected to the near Z clipping plane, and the initial ray
-*   MIN_DIST set to zero.
+*   To minimize floating point precision problems, the ray start point will be
+*   projected to the near Z clipping plane, and the initial ray MIN_DIST set to
+*   zero.
+*
+*   This routine launches a single eye ray to determine the pixel value.
 }
 procedure write_pixel;
 
@@ -85,10 +85,10 @@ begin
   ray.energy := 1.0;                   {this ray fully controls final values}
   ray.min_dist := 0.0;                 {ray point will be as far forward as possible}
 {
-*   Set the FARZ value.  This is the 3DW space Z coordinate value that will
-*   map to the ray at its MAX_DIST value.  This comes from the current pixel
-*   Z value if everthing is appropriately enabled, otherwise this comes from
-*   the far Z clip plane.
+*   Set the FARZ value.  This is the 3DW space Z coordinate value that will map
+*   to the ray at its MAX_DIST value.  This comes from the current pixel Z value
+*   if everthing is appropriately enabled, otherwise this comes from the far Z
+*   clip plane.
 }
   if
       rend_iterps.z.on and             {Z interpolant is ON ?}
@@ -222,7 +222,7 @@ begin
   rend_prim.wpix^;                     {draw the pixel with our RGB colors}
   end;
 {
-*************************************************
+********************************************************************************
 *
 *   Start of main routine.
 }
@@ -322,8 +322,8 @@ otherwise
   ray.base.context_p := addr(rend_ray.context);
   ray.generation := 1;
 {
-*   Stomp on some of the interpolant state.  We will save it first so that it can
-*   be restored when we are done.
+*   Stomp on some of the interpolant state.  We will save it first so that it
+*   can be restored when we are done.
 }
   save_red.int := rend_iterps.red.int; {save interplant state we will stomp on}
   save_red.mode := rend_iterps.red.mode;
@@ -360,8 +360,8 @@ otherwise
     rend_internal.check_modes^;
     end;
 {
-*   Set up the Bresnham steppers so the rest of the system knows what we're going
-*   to do.
+*   Set up the Bresnham steppers so the rest of the system knows what we're
+*   going to do.
 }
   ady := abs(idy);
   if idy >= 0                          {extract sign of DY}

@@ -47,7 +47,7 @@ procedure rend_sw_ray_save (           {turn primitive saving for ray tracing ON
   val_param;
 
 var
-  data_oct: type1_octree_user_data_t;  {user data for an OCTREE object}
+ crea_oct: type1_octree_crea_data_t;   {octree creation data}
   stat: sys_err_t;                     {error status}
 
 begin
@@ -71,34 +71,31 @@ begin
     ray_init (                         {initialize ray tracer library}
       rend_device[rend_dev_id].mem_p^); {handle to parent memory context}
     type1_octree_routines_make (       {fill in pointers to OCTREE object routines}
-      rend_ray.routines_oct,           {routine pointers to fill in}
-      sizeof(rend_ray.routines_oct));  {amount of space for routine pointers}
+      rend_ray.routines_oct);
     type1_tri_routines_make (          {fill in pointers to TRI object routines}
-      rend_ray.routines_tri,           {routine pointers to fill in}
-      sizeof(rend_ray.routines_tri));  {amount of space for routine pointers}
+      rend_ray.routines_tri);
     type1_sphere_routines_make (       {fill in pointers to SPHERE object routines}
-      rend_ray.routines_sph,           {routine pointers to fill in}
-      sizeof(rend_ray.routines_sph));  {amount of space for routine pointers}
+      rend_ray.routines_sph);
 {
 *   Set up our top level object.
 }
-    data_oct.shader := nil;            {data for OCTREE object}
-    data_oct.liparm_p := nil;
-    data_oct.visprop_p := nil;
-    data_oct.min_gen := 0;
-    data_oct.max_gen := 8;
-    data_oct.min_miss := 2;
-    data_oct.origin.x := -1.0;         {set temp bounds, will be reset later}
-    data_oct.origin.y := -1.0;
-    data_oct.origin.z := -1.0;
-    data_oct.size.x := 2.0;
-    data_oct.size.y := 2.0;
-    data_oct.size.z := 2.0;
+    crea_oct.shader := nil;            {data for OCTREE object}
+    crea_oct.liparm_p := nil;
+    crea_oct.visprop_p := nil;
+    crea_oct.min_gen := 0;
+    crea_oct.max_gen := 8;
+    crea_oct.min_miss := 2;
+    crea_oct.origin.x := -1.0;         {set temp bounds, will be reset later}
+    crea_oct.origin.y := -1.0;
+    crea_oct.origin.z := -1.0;
+    crea_oct.size.x := 2.0;
+    crea_oct.size.y := 2.0;
+    crea_oct.size.z := 2.0;
     rend_ray.top_obj.routines_p :=
       addr(rend_ray.routines_oct);
     rend_ray.routines_oct.create^ (    {create top level aggregate object}
       rend_ray.top_obj,                {object to create}
-      data_oct,                        {user data for this object}
+      crea_oct,                        {creation data for this object}
       stat);
     sys_error_abort (stat, 'ray', 'object_create', nil, 0);
 {
