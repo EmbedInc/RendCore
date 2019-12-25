@@ -95,7 +95,7 @@ begin
       addr(rend_ray.routines_oct);
     rend_ray.routines_oct.create^ (    {create top level aggregate object}
       rend_ray.top_obj,                {object to create}
-      crea_oct,                        {creation data for this object}
+      addr(crea_oct),                  {creation data for this object}
       stat);
     sys_error_abort (stat, 'ray', 'object_create', nil, 0);
 {
@@ -120,13 +120,12 @@ begin
     rend_ray.context.top_level_obj_p := {set address of top level object}
       addr(rend_ray.top_obj);
     rend_ray.context.object_parms_p := {set address of root run time parameters}
-      ray_object_parms_p_t(addr(rend_ray.top_parms));
+      addr(rend_ray.top_parms);
     rend_ray.context.backg_shader :=   {point to shader that gets background color}
       ray_shader_t(addr(type1_shader_fixed));
     rend_ray.context.backg_hit_info.object_p := nil;
     rend_ray.context.backg_hit_info.distance := 1.0E35;
-    rend_ray.context.backg_hit_info.shader_parms_p :=
-      ray_shader_parms_p_t(addr(rend_ray.backg_parms));
+    rend_ray.context.backg_hit_info.shader_parms_p := addr(rend_ray.backg_parms);
     rend_ray.context.backg_hit_info.enter := true;
     end;                               {done initializing ray tracing state}
 

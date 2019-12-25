@@ -63,7 +63,7 @@ begin
 
   rend_ray.routines_sph.create^ (      {create sphere object}
     obj_p^,                            {object to create}
-    sph,                               {user data about the object to create}
+    addr(sph),                         {user data about the object to create}
     stat);
   sys_error_abort (stat, 'ray', 'object_create', nil, 0);
   if obj_p^.data_p = nil then return;  {object got punted by create routine ?}

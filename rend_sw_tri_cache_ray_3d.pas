@@ -350,7 +350,7 @@ no_shnorm3:
 
   rend_ray.routines_tri.create^ (      {create triangle object}
     obj_p^,                            {object to create}
-    tri,                               {user data about the object to create}
+    addr(tri),                         {user data about the object to create}
     stat);
   sys_error_abort (stat, 'ray', 'object_create', nil, 0);
 
