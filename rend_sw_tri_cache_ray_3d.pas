@@ -1,12 +1,11 @@
 {   Subroutine REND_SW_TRI_RAY_3D (V1, V2, V3, CA1, CA2, CA3, GNORM)
 *
-*   Draw triangle in 3D space.  V1-V3 are the descriptors
-*   for each vertex.  CA1-CA3 are the vertex caches for each vertex.
-*   The vertex cache pointers in V1-V3 should not be used.  GNORM is the
-*   geometric normal vector for the triangle.  It points out from the side
-*   that is to be considered the "front" face of the polygon.  When the
-*   front face is viewed, the verticies appear in a counter-clockwise order
-*   from V1 to V2 to V3.
+*   Draw triangle in 3D space.  V1-V3 are the descriptors for each vertex.
+*   CA1-CA3 are the vertex caches for each vertex.  The vertex cache pointers in
+*   V1-V3 should not be used.  GNORM is the geometric normal vector for the
+*   triangle.  It points out from the side that is to be considered the "front"
+*   face of the polygon.  When the front face is viewed, the verticies appear in
+*   a counter-clockwise order from V1 to V2 to V3.
 *
 *   This version of the REND_INTERNAL.TRI_CACHE_3D primitive will save the
 *   triangle for future ray tracing.
@@ -28,7 +27,7 @@ var
   tri: type1_tri_crea_data_t;          {creation data for ray TRI object}
   nv2, nv: vect_3d_t;                  {scratch shading normal vector}
   w: real;                             {scale factor for unitizing shading normal}
-  obj_p: ray_object_p_t;               {pointer to object we will create}
+  obj_p: ray_object_p_t;               {pointer to new ray tracer triangle object}
   stat: sys_err_t;
 
 label
@@ -46,10 +45,10 @@ begin
     end;
   rend_ray.visprop_used := true;       {we will be using this visprop block}
 {
-*   Init all the TRI object data indicating no optional data is being sent,
-*   but fill in the optional data with the default values anyway.  This is
-*   because we may later discover that some verticies have optional data and
-*   some don't.  This way we can just fill in the optional data if found.
+*   Init all the TRI object data indicating no optional data is being sent, but
+*   fill in the optional data with the default values anyway.  This is because
+*   we may later discover that some verticies have optional data and some don't.
+*   This way we can just fill in the optional data if found.
 }
   tri.flags := [];                     {init to no optional data given}
   tri.visprop_p := rend_ray.visprop_p; {set pnt to visual properties for this tri}
@@ -147,7 +146,8 @@ begin
   tri.v2.shnorm := tri.v1.shnorm;      {copy into other verticies}
   tri.v3.shnorm := tri.v1.shnorm;
 {
-*   Copy the current diffuse color as the default explicit colors for each vertex.
+*   Copy the current diffuse color as the default explicit colors for each
+*   vertex.
 }
   tri.v1.red := rend_ray.visprop_p^.diff_red; {stuff diff color into vertex 1}
   tri.v1.grn := rend_ray.visprop_p^.diff_grn;
@@ -159,9 +159,9 @@ begin
   tri.v3.grn := tri.v1.grn;
   tri.v3.blu := tri.v1.blu;
 {
-*   Init the explicit alpha value for each vertex with the current FRONT
-*   opacity fraction.  Artifacts will result if front and side opacities differ,
-*   and an explicit opacity is supplied for some verticies, but not all.
+*   Init the explicit alpha value for each vertex with the current FRONT opacity
+*   fraction.  Artifacts will result if front and side opacities differ, and an
+*   explicit opacity is supplied for some verticies, but not all.
 }
   tri.v1.alpha := rend_ray.visprop_p^.opac_front;
   tri.v2.alpha := rend_ray.visprop_p^.opac_front;
@@ -344,11 +344,8 @@ no_shnorm3:
 {
 *   All the state has been set up.  Now create the actual triangle object.
 }
-  util_mem_grab (                      {allocate memory for this object}
-    sizeof(obj_p^),                    {amount of memory to grab}
-    ray_mem_p^,                        {our memory context}
-    false,                             {won't need to separately deallocate mem}
-    obj_p);                            {returned pointer to new memory}
+  obj_p :=                             {alloc mem for the new triangle object}
+    ray_mem_alloc_perm (sizeof(obj_p^));
   obj_p^.routines_p := addr(rend_ray.routines_tri); {set pointer to obj routines}
 
   rend_ray.routines_tri.create^ (      {create triangle object}

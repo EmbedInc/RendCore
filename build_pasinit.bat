@@ -15,7 +15,6 @@ call src_getfrom vect vect.ins.pas
 call src_getfrom math math.ins.pas
 call src_getfrom imglib img.ins.pas
 call src_getfrom ray ray.ins.pas
-call src_getfrom ray ray_kernel.ins.pas
 call src_getfrom ray ray_type1.ins.pas
 
 call src_getfrom rend win win.ins.pas

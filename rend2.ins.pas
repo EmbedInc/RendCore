@@ -45,7 +45,6 @@
 %include 'file.ins.pas';
 %include 'img.ins.pas';
 %include 'vect.ins.pas';
-%include 'ray_kernel.ins.pas';
 %include 'ray.ins.pas';
 %include 'ray_type1.ins.pas';
 %include 'rend.ins.pas';

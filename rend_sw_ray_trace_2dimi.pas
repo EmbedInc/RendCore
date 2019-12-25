@@ -259,9 +259,9 @@ begin
 }
   sz := sizeof(liparm_p^) +            {memory needed for ray tracer lights block}
     (sizeof(liparm_p^.light[1]) * (rend_lights.n_on - type1_max_light_sources_k));
-  util_mem_grab (                      {allocate mem for ray tracer lights block}
+  rend_mem_alloc (                     {allocate ray tracer lights descriptor}
     sz,                                {amount of memory to allocate}
-    ray_mem_p^,                        {context to allocate memory under}
+    rend_scope_dev_k,                  {memory will be associated with this device}
     true,                              {we will want to deallocate this memory}
     liparm_p);                         {pointer to new ray tracer lights block}
   rend_ray.top_parms.liparm_p := liparm_p; {set pointer to ray lights block}
@@ -412,6 +412,12 @@ otherwise
     rend_sw_bres_step (rend_lead_edge, step); {next scan line on leading edge}
     rend_sw_interpolate (step);        {set up interpolators for new scan line}
     end;                               {back and do new scan line}
+{
+*   Deallocate the temporary lights descriptor.
+}
+  rend_mem_dealloc (
+    rend_ray.top_parms.liparm_p,       {pointer to memory to dealloc, returned NIL}
+    rend_scope_dev_k);                 {scope memory was deallocated under}
 {
 *   Restore the interpolant state we stomped on.
 }

@@ -1,8 +1,8 @@
 {   Subroutine REND_SW_RAY_VISPROP_NEW
 *
 *   Make sure the ray tracing visual properties block correctly reflects the
-*   current RENDlib surface properties.  If REND_RAY.VISPROP_USED is TRUE,
-*   then a new visprop block is created.
+*   current RENDlib surface properties.  If REND_RAY.VISPROP_USED is TRUE, then
+*   a new visprop block is created.
 }
 module rend_sw_ray_visprop_new;
 define rend_sw_ray_visprop_new;
@@ -10,7 +10,7 @@ define rend_sw_ray_visprop_new;
 
 procedure rend_sw_ray_visprop_new;     {make new current ray tracing visprop block}
 {
-*****************************************************
+********************************************************************************
 *
 *   Local subroutine FILL_VISPROP (S, V)
 *
@@ -88,26 +88,20 @@ begin
     ;
   end;
 {
-*****************************************************
+********************************************************************************
 *
 *   Start of main routine.
 }
 begin
   if rend_ray.visprop_used then begin  {old visprop was used, need to save it ?}
-    util_mem_grab (                    {allocate memory for new visprop block}
-      sizeof(rend_ray.visprop_p^),     {amount of memory to allocate}
-      ray_mem_p^,                      {memory context}
-      false,                           {won't need to separately deallocate this}
-      rend_ray.visprop_p);             {returned pointer to new memory area}
+    rend_ray.visprop_p :=              {allocate memory for new visprop block}
+      ray_mem_alloc_perm (sizeof(rend_ray.visprop_p^));
     rend_ray.visprop_back_p := nil;    {init to back side block not allocated yet}
     end;
 
   if rend_face_back.on and (rend_ray.visprop_back_p = nil) then begin {need back ?}
-    util_mem_grab (                    {allocate memory for new visprop block}
-      sizeof(rend_ray.visprop_back_p^), {amount of memory to allocate}
-      ray_mem_p^,                      {memory context}
-      false,                           {won't need to separately deallocate this}
-      rend_ray.visprop_back_p);        {returned pointer to new memory area}
+    rend_ray.visprop_back_p :=         {allocate memory for back face visprop}
+      ray_mem_alloc_perm (sizeof(rend_ray.visprop_back_p^));
     end;
 {
 *   REND_RAY.VISPROP_P is pointing to the ray tracer visual properties block

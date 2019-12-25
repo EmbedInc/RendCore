@@ -7,11 +7,11 @@
 *
 *   This routine must only be installed under the following circumstances.
 *
-*     1 - Primitives are currently being saved for ray tracing.  This
-*         means REND_RAY.SAVE_ON must be TRUE.
+*     1 - Primitives are currently being saved for ray tracing.  This means
+*         REND_RAY.SAVE_ON must be TRUE.
 *
-*     2 - The current 3D to 3DW transform must represent only a rotation
-*         and uniform scaling.  This means REND_XF3D.ROT_SCALE must be TRUE.
+*     2 - The current 3D to 3DW transform must represent only a rotation and
+*         uniform scaling.  This means REND_XF3D.ROT_SCALE must be TRUE.
 *
 *   PRIM_DATA prim_call rend_sw_ray_trace_2dimi
 }
@@ -57,11 +57,8 @@ begin
 {
 *   Create the ray tracer object.
 }
-  util_mem_grab (                      {allocate memory for this object}
-    sizeof(obj_p^),                    {amount of memory to grab}
-    ray_mem_p^,                        {our memory context}
-    false,                             {won't need to separately deallocate mem}
-    obj_p);                            {returned pointer to new memory}
+  obj_p :=                             {allocate memory for the base object}
+    ray_mem_alloc_perm (sizeof(obj_p^));
   obj_p^.routines_p := addr(rend_ray.routines_sph); {set pointer to obj routines}
 
   rend_ray.routines_sph.create^ (      {create sphere object}
