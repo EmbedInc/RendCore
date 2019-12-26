@@ -5,7 +5,10 @@
 *   source file examined will be written to one of three list output files.
 }
 program edit_rendprims;
-%include 'base.ins.pas';
+%include 'sys.ins.pas';
+%include 'util.ins.pas';
+%include 'string.ins.pas';
+%include 'file.ins.pas';
 
 var
   conn_dir: file_conn_t;               {connection to reading the curr directory}

@@ -8,4 +8,3 @@ setlocal
 call build_pasinit
 
 call src_prog %srcdir% edit_rendprims %1
-call src_prog %srcdir% test_win %1
