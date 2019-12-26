@@ -91,7 +91,7 @@ begin
     crea_oct.size.x := 2.0;
     crea_oct.size.y := 2.0;
     crea_oct.size.z := 2.0;
-    rend_ray.top_obj.routines_p :=
+    rend_ray.top_obj.class_p :=
       addr(rend_ray.routines_oct);
     rend_ray.routines_oct.create^ (    {create top level aggregate object}
       rend_ray.top_obj,                {object to create}

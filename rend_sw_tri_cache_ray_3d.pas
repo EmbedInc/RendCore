@@ -346,7 +346,7 @@ no_shnorm3:
 }
   obj_p :=                             {alloc mem for the new triangle object}
     ray_mem_alloc_perm (sizeof(obj_p^));
-  obj_p^.routines_p := addr(rend_ray.routines_tri); {set pointer to obj routines}
+  obj_p^.class_p := addr(rend_ray.routines_tri); {set pointer to obj routines}
 
   rend_ray.routines_tri.create^ (      {create triangle object}
     obj_p^,                            {object to create}
@@ -355,7 +355,7 @@ no_shnorm3:
   sys_error_abort (stat, 'ray', 'object_create', nil, 0);
 
   if obj_p^.data_p <> nil then begin   {triangle not punted by TRI create routines ?}
-    rend_ray.top_obj.routines_p^.add_child^ ( {add new triangle as child to top object}
+    rend_ray.top_obj.class_p^.add_child^ ( {add new triangle as child to top object}
       rend_ray.top_obj,                {aggregate object to add triangle to}
       obj_p^);                         {object to be added}
     end;

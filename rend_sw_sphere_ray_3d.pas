@@ -59,7 +59,7 @@ begin
 }
   obj_p :=                             {allocate memory for the base object}
     ray_mem_alloc_perm (sizeof(obj_p^));
-  obj_p^.routines_p := addr(rend_ray.routines_sph); {set pointer to obj routines}
+  obj_p^.class_p := addr(rend_ray.routines_sph); {set pointer to obj routines}
 
   rend_ray.routines_sph.create^ (      {create sphere object}
     obj_p^,                            {object to create}
@@ -68,7 +68,7 @@ begin
   sys_error_abort (stat, 'ray', 'object_create', nil, 0);
   if obj_p^.data_p = nil then return;  {object got punted by create routine ?}
 
-  rend_ray.top_obj.routines_p^.add_child^ ( {add new sphere as child to top object}
+  rend_ray.top_obj.class_p^.add_child^ ( {add new sphere as child to top object}
     rend_ray.top_obj,                  {aggregate object to add sphere to}
     obj_p^);                           {object to be added}
 {
