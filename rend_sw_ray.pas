@@ -70,12 +70,12 @@ begin
     rend_ray.visprop_p := nil;         {cause error if try to use without fixing}
     ray_init (                         {initialize ray tracer library}
       rend_device[rend_dev_id].mem_p^); {handle to parent memory context}
-    type1_octree_routines_make (       {fill in pointers to OCTREE object routines}
-      rend_ray.routines_oct);
-    type1_tri_routines_make (          {fill in pointers to TRI object routines}
-      rend_ray.routines_tri);
-    type1_sphere_routines_make (       {fill in pointers to SPHERE object routines}
-      rend_ray.routines_sph);
+    type1_octree_class_make (          {fill in OCTREE object class descriptor}
+      rend_ray.class_oct);
+    type1_tri_class_make (             {fill in TRI object class descriptor}
+      rend_ray.class_tri);
+    type1_sphere_class_make (          {fill in SPHERE object class descriptor}
+      rend_ray.class_sph);
 {
 *   Set up our top level object.
 }
@@ -92,8 +92,8 @@ begin
     crea_oct.size.y := 2.0;
     crea_oct.size.z := 2.0;
     rend_ray.top_obj.class_p :=
-      addr(rend_ray.routines_oct);
-    rend_ray.routines_oct.create^ (    {create top level aggregate object}
+      addr(rend_ray.class_oct);
+    rend_ray.class_oct.create^ (       {create top level aggregate object}
       rend_ray.top_obj,                {object to create}
       addr(crea_oct),                  {creation data for this object}
       stat);

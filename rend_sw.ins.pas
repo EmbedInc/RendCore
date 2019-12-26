@@ -428,9 +428,9 @@ rend_tmapm_mip_k: (                    {method is MIP MAPPING}
     visprop_p: type1_visprop_p_t;      {points to curr visual properties block}
     visprop_back_p: type1_visprop_p_t; {points to back side properties, if any}
     xmin, xmax, ymin, ymax, zmin, zmax: real; {3DW bounds of saved primitives}
-    routines_oct: ray_object_class_t;  {static data for OCTREE object}
-    routines_tri: ray_object_class_t;  {static data for TRI object}
-    routines_sph: ray_object_class_t;  {static data for SPHERE object}
+    class_oct: ray_object_class_t;     {static data for OCTREE object}
+    class_tri: ray_object_class_t;     {static data for TRI object}
+    class_sph: ray_object_class_t;     {static data for SPHERE object}
     top_obj: ray_object_t;             {top level object that holds all others}
     top_parms: type1_object_parms_t;   {contains SHADER, LIPARM_P, and VISPROP_P}
     backg_parms: type1_shader_fixed_data_t; {info passed to background shader}

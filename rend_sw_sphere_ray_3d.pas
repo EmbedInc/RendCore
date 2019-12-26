@@ -59,9 +59,9 @@ begin
 }
   obj_p :=                             {allocate memory for the base object}
     ray_mem_alloc_perm (sizeof(obj_p^));
-  obj_p^.class_p := addr(rend_ray.routines_sph); {set pointer to obj routines}
+  obj_p^.class_p := addr(rend_ray.class_sph); {set pointer to obj routines}
 
-  rend_ray.routines_sph.create^ (      {create sphere object}
+  rend_ray.class_sph.create^ (         {create sphere object}
     obj_p^,                            {object to create}
     addr(sph),                         {user data about the object to create}
     stat);

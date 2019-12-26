@@ -346,9 +346,9 @@ no_shnorm3:
 }
   obj_p :=                             {alloc mem for the new triangle object}
     ray_mem_alloc_perm (sizeof(obj_p^));
-  obj_p^.class_p := addr(rend_ray.routines_tri); {set pointer to obj routines}
+  obj_p^.class_p := addr(rend_ray.class_tri); {set pointer to obj routines}
 
-  rend_ray.routines_tri.create^ (      {create triangle object}
+  rend_ray.class_tri.create^ (         {create triangle object}
     obj_p^,                            {object to create}
     addr(tri),                         {user data about the object to create}
     stat);
