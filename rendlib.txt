@@ -1,0 +1,541 @@
+                         RENDlib Graphics Library
+
+RENDlib is Embed Inc's device-independent graphics library.  The source
+code is available on GitHub under the EmbedInc organization, in
+repositories named RENDxxx.
+
+
+                                 Features
+
+- 2D and 3D rendering with coordinate transformations.
+
+- Z buffering.
+
+- Alpha buffering.
+
+- Texture mapping.
+
+- Ambient, directional, and point light sources.
+
+- Emissive, diffuse, specular, and transparent surface properties.
+
+- Flat, linear, and Phong shading.
+
+- Ray tracing.
+
+- Vector text.  Arbitrary fonts can be created by users.
+
+- Anti-aliasing.
+
+- Dithering.
+
+- Flat, linear, and quadratic interpolation.
+
+- Drawing into software bitmaps with image file writing capability.
+
+
+                               Call Tables
+
+RENDlib's main architectural feature is that most routines are called by
+the application indirectly thru pointers.  This allows installing
+different routines for different underlying device implementations, and
+routines optimized for specific conditions when those conditions are met.
+This can be done on the fly as modes are changed.
+
+For example, an optimized 2D rectangle routine that makes use of simple
+hardware drawing can be installed when the only interpolants are red,
+green, and blue, and the color is flat.  When linear interpolation is
+enabled, a routine is installed that performs the drawing into the
+software bitmap.  The final changed RGB values of each pixel are then
+written to the device bitmap.
+
+The call table architecture also provides automatic emulation of advanced
+features on simple output devices.  By default, higher level primitives
+call simpler ones, eventually reaching the level of writing final values
+to individual pixels.  Hardware drivers can intercept this chain of
+primitives at any level.  Simple hardware drivers need only support
+copying a span of pixels from the software bitmap to the device.  Drivers
+for high-end graphics hardware can intercept 3D primitives and others
+directly, utilizing the hardware for coordinate transforms, shading, Z
+buffering, etc.
+
+Switching between native hardware drawing and software emulation can be
+done on the fly as the application changes modes.  Direct hardware versus
+software emulation routines are swapped in and out depending on the
+features requested by the application and those supported by the hardware.
+
+To the user, the difference between simple and high end hardware is speed,
+not capability.
+
+
+                            Coordinate Spaces
+
+Many RENDlib routine names, particularly primitives, end in a coordinate
+space name.  This is used to indicate at which coordinate space they
+apply.  The coordinate space names are:
+
+  3DPL - Current plane in 3D space.  This is actually a 2D space.
+
+  3D - 3D model coordinate space.  Values are transformed and clipped
+       into the 3DW space.
+
+  3DW - 3D world coordinate space.  The intended view volume is the -1
+       to +1 cube in all three axes.  The observer point is on the +Z
+       axis.  RENDlib lights are defined in this space.  2D values
+       result from 3DW values after Z clip and perspective transform.
+
+  2D - 2D model coordinate space.  Z is now an interpolant value, not a
+       coordinate.  By default, the square from -1 to +1 in X and Y is
+       centered and scaled as large as possible in the image.  X is to
+       the right and Y is up.  The 2D transform converts these values
+       to the 2DIMCL space.
+
+  2DIMCL - 2D image pixel coordinates, 2D clipping still to be
+       applied.  The top left corner of the top left pixel is at
+       (0,0).  The bottom right corner of the top left pixel is at
+       (1,1).  The center of the second pixel in the top row is at
+       (1.5,.5).  The 2DIMCL values are converted to the 2DIM space by
+       applying the 2D clipping.
+
+  2DIM - Raw 2D floating point pixel coordinate space, with clipping
+       already applied.
+
+  2DIMI - 2D integer pixel coordinate space.  The top left pixel is
+       0,0.  The next one to the right is 1,0.
+
+  TEXT - Current text character cell coordinates.  The bottom left of
+       the character cell is at (0,0).  The character cell is 1 unit
+       high and wide.  Decenders have negative Y values.  Characters
+       only roughly average 1 unit wide for proportionately spaced
+       fonts.  TEXT space coordinates are transformed into the TXDRAW
+       space as defined in the TEXTPARMS state.
+
+  TXDRAW - Text character cell coordinates are transformed into this
+       space.  The TXDRAW space can be switched to either the 3DPL, 2D,
+       or 2DIMCL space as defined by the TEXTPARMS state.
+
+
+                           Routines by Category
+
+Most RENDlib routines are called indirectly thru one of three call tables,
+called SET, GET, and PRIM.  There are also a small number of routines that
+are called directly by name.  The SET routines modify state, GET routines
+report current state values, and PRIM routines are primitives that cause
+drawing to happen.  These four categories are distinguised in the list
+below by adding a prefix to the routine name where appropriate.
+
+See the REND.INS.PAS include file for details.  A C version, REND.H, is
+also available to support applications written in C.  However, REND.H is
+automatically derived from REND.INS.PAS.  Refer to the descriptions in
+REND.INS.PAS regardless of what include file is used by the application
+code.
+
+
+ANTI-ALIASING
+
+  SET.aa_radius (radius)
+  SET.aa_scale (x_scale, y_scale)
+  SET.iterp_aa (iterp, onoff)
+  GET.aa_border (dx, dy)
+  GET.aa_radius (radius)
+  PRIM.anti_alias (dx, dy, src_x, src_y)
+
+
+BITMAPS
+
+  SET.alloc_bitmap (bitmap_handle, x_size, y_size, pix_size, scope)
+  SET.alloc_bitmap_handle (scope, bitmap_handle)
+  SET.array_bitmap (bitmap_handle, array, dx, dy, pix_size, line_size)
+  SET.dealloc_bitmap (bitmap_handle)
+  SET.dealloc_bitmap_handle (bitmap_handle)
+  SET.iterp_bitmap (iterp, bitmap_handle, pix_offset)
+
+
+CLIPPING
+
+  SET.clip_2dim (clip_handle, x1, x2, y1, y2, draw_inside)
+  SET.clip_2dim_on (clip_handle, onoff)
+  SET.clip_2dim_delete (clip_handle)
+  SET.z_clip (near, far)
+  GET.clip_poly_2dimcl (clip_state, in_n, in_poly, out_n, out_poly)
+  GET.clip_vect_2dimcl (clip_state, in_vect, out_vect)
+  GET.clip_2dim_handle (clip_handle)
+  GET.z_clip (near, far)
+
+
+CURRENT POINT
+
+  SET.cpnt_2d (x, y)
+  SET.cpnt_2dim (x, y)
+  SET.cpnt_2dimi (x, y)
+  SET.cpnt_3d (x, y, z)
+  SET.cpnt_3dpl (x, y)
+  SET.cpnt_3dw (x, y, z)
+  SET.cpnt_text (x, y)
+  SET.cpnt_txdraw (x, y)
+  SET.rcpnt_text (dx, dy)
+  SET.rcpnt_txdraw (dx, dy)
+  SET.rcpnt_2d (dx, dy)
+  SET.rcpnt_2dim (dx, dy)
+  SET.rcpnt_2dimi (dx, dy)
+  SET.rcpnt_3dpl (dx, dy)
+  GET.cpnt_text (x, y)
+  GET.cpnt_txdraw (x, y)
+  GET.cpnt_2d (x, y)
+  GET.cpnt_2dim (x, y)
+  GET.cpnt_2dimi (x, y)
+  GET.cpnt_3d (x, y)
+  GET.cpnt_3dpl (x, y)
+  GET.cpnt_3dw (x, y, z)
+
+
+DOUBLE BUFFERING, UPDATE CONTROL
+
+  SET.disp_buf (n)
+  SET.draw_buf (n)
+  SET.max_buf (n)
+  SET.update_mode (update_mode)
+  GET.disp_buf (n)
+  GET.draw_buf (n)
+  GET.max_buf (n)
+  PRIM.flip_buf
+
+
+EVENTS AND DEVICE I/O
+
+  rend_event_enqueue (event)
+  rend_event_get (event)
+  rend_event_get_nowait (event)
+  rend_event_push (event)
+  rend_event_req_stdin_line (onoff)
+  rend_get_stdin_line (str)
+  SET.event_mode_pnt (mode)
+  SET.event_req_close (onoff)
+  SET.event_req_key_off (key_id)
+  SET.event_req_key_on (key_id, user_key_id)
+  SET.event_req_pnt (onoff)
+  SET.event_req_resize (onoff)
+  SET.event_req_rotate_off
+  SET.event_req_rotate_on (scale)
+  SET.event_req_translate (onoff)
+  SET.event_req_wiped_resize (onoff)
+  SET.event_req_wiped_rect (onoff)
+  SET.events_req_off
+  SET.pointer (x, y)
+  SET.pointer_abs (x, y)
+  GET.event_possible (event_id): yesno
+  GET.keys (keys_list_p, n)
+  GET.key_sp (special_key_id, detail): key_id
+  GET.key_sp_def (special_key_data)
+  GET.pointer (x, y)
+  GET.pointer_abs (x, y)
+
+
+DEVICE CONTROL AND INFO
+
+  SET.clear_cmodes
+  SET.cmode_vals (vals)
+  SET.dev_z_curr (yesno)
+  SET.force_sw_update (onoff)
+  SET.image_size (dx, dy, aspect)
+  SET.min_bits_hw (n)
+  SET.min_bits_vis (n)
+  SET.video_sync_int_clr
+  GET.bits_hw (n)
+  GET.bits_vis (n)
+  GET.close_corrupt
+  GET.cmode_vals (cmode_vals)
+  GET.cmodes (list_size, n, list)
+  GET.color_xor (color1, color2, color_xor)
+  GET.force_sw_update (onoff)
+  GET.image_size (dx, dy, aspect)
+  GET.min_bits_hw (n)
+  GET.min_bits_vis (n)
+  GET.reading_sw (yesno)
+  GET.reading_sw_prim (prim_p, yesno)
+  GET.update_sw (yesno)
+  GET.update_sw_prim (prim_p, yesno)
+  GET.video_sync_int: yesno
+
+
+DEVICE SELECT / OPEN / CLOSE
+
+  rend_start
+  rend_open (name, dev_id, stat)
+  rend_dev_set (dev_id)
+  rend_end
+  SET.alloc_context (context_handle)
+  SET.close
+  SET.context (context_handle)
+  SET.dealloc_context (context_handle)
+  SET.dev_reconfig
+  SET.dev_restore
+  SET.enter_level (level)
+  SET.enter_rend
+  SET.enter_rend_cond (entered)
+  SET.exit_rend
+  GET.context (context_handle)
+  GET.dev_id (dev_id)
+  GET.enter_level (level)
+  GET.wait_exit (flags)
+
+
+EXTRUSIONS
+
+  SET.xsec_circle (n_segs, smooth, mem_scope, new_xsec_p)
+  SET.xsec_close (xsec, connect)
+  SET.xsec_create (mem_scope, new_xsec_p)
+  SET.xsec_curr (xsec)
+  SET.xsec_delete (xsec_p)
+  SET.xsec_pnt_add (xsec, xy, norm_bef, norm_aft, smooth)
+  PRIM.tubeseg_3d (p1, p2, cap_start, cap_end)
+  rend_tbpoint_2d_3d (tube_point)
+
+
+INTERPOLANTS
+
+  SET.iterp_bitmap (iterp, bitmap_handle, pix_offset)
+  SET.iterp_flat (iterp, val)
+  SET.iterp_flat_int (iterp, ival)
+  SET.iterp_iclamp (iterp, onoff)
+  SET.iterp_linear (iterp, xy, val, dx, dy)
+  SET.iterp_on (iterp, onoff)
+  SET.iterp_pclamp (iterp, onoff)
+  SET.iterp_pixfun (iterp, pixfun)
+  SET.iterp_quad (iterp, xy, val, dx, dy, dxx, dyy, dxy)
+  SET.iterp_run_ofs (iterp, offset)
+  SET.iterp_shade_mode (iterp, shmode)
+  SET.iterp_span_ofs (iterp, offset)
+  SET.iterp_span_on (iterp, onoff)
+  SET.iterp_src_bitmap (iterp, bitmap_handle, pix_offset)
+  SET.iterp_wmask (iterp, write_mask)
+  SET.lin_geom_2dim (p1, p2, p3)
+  SET.lin_vals (iterp, val1, val2, val3)
+  SET.lin_vals_rgba (val1, val2, val3)
+  SET.quad_geom_2dim (p1, p2, p3, p4, p5, p6)
+  SET.quad_vals (iterp, val1, val2, val3, val4, val5, val6)
+  SET.rgb (red, grn, blu)
+  SET.rgbz_linear (val1, val2, val3)
+  SET.rgbz_quad (val1, val2, val3, val4, val5, val6)
+  GET.iterps_on_list (n, list)
+  GET.iterps_on_set: enabled_set
+
+
+LIGHT SOURCES
+
+  SET.create_light (light_handle)
+  SET.del_all_lights
+  SET.del_light (light_handle)
+  SET.light_accur (accuracy_mode)
+  SET.light_amb (light_handle, red, grn, blu)
+  SET.light_dir (light_handle, red, grn, blu, dx, dy, dz)
+  SET.light_on (light_handle, onoff)
+  SET.light_pnt (light_handle, red, grn, blu, x, y, z)
+  SET.light_pr2 (light_handle, red, grn, blu, r, x, y, z)
+  SET.light_val (light_handle, light_type, values)
+  GET.light_eval (vertex, cache, norm_vect, suprop)
+  GET.lights (max_n, start_n, handles_list, n_in_list, total_n)
+
+
+MISCELLANEOUS
+
+  SET.alpha_func (afunc)
+  SET.alpha_on (onoff)
+  SET.bench_flags (flags)
+  SET.dith_on (onoff)
+  GET.bench_flags (flags)
+  GET.dith_on (onoff)
+  PRIM.flush_all
+  rend_error_abort (stat, subsys_name, msg_name, parms, n_parms)
+  rend_mem_alloc (size, mem_scope, ind_dealloc, adr)
+  rend_mem_dealloc (adr, mem_scope)
+  rend_message_bomb (subsys_name, msg_name, parms, n_parms)
+
+
+PIXELS AND IMAGES
+
+  SET.image_ftype (ftype)
+  SET.image_write (fname, x, y, dx, dy, stat)
+  SET.iterp_span_ofs (iterp, offset)
+  SET.iterp_span_on (iterp, onoff)
+  SET.run_config (pix_size, runlen_offset)
+  SET.span_config (pix_size)
+  GET.comments_list (string_list_p)
+  PRIM.image_2dimcl (img, x, y, torg, stat)
+  PRIM.runpx_2dimcl (start_skip, n_pix, runs)
+  PRIM.runpx_2dimi (start_skip, n_pix, runs)
+  PRIM.span_2dimcl (len, pixels)
+  PRIM.span_2dimi (len, pixels)
+  PRIM.wpix
+
+
+POLYGONS
+
+  SET.poly_parms (parms)
+  GET.poly_parms (poly_parms)
+  PRIM.clear
+  PRIM.clear_cwind
+  PRIM.poly_text (n, verts)
+  PRIM.poly_txdraw (n, verts)
+  PRIM.poly_2d (n, verts)
+  PRIM.poly_2dim (n, verts)
+  PRIM.poly_2dimcl (n, verts)
+  PRIM.poly_3dpl (n, verts)
+  PRIM.quad_3d (v1, v2, v3, v3)
+  PRIM.rect_2d (dx, dy)
+  PRIM.rect_2dim (dx, dy)
+  PRIM.rect_2dimcl (dx, dy)
+  PRIM.rect_2dimi (dx, dy)
+  PRIM.rect_px_2dimcl (dx, dy)
+  PRIM.rect_px_2dimi (dx, dy)
+  PRIM.tri_3d (v1, v2, v3, gnorm)
+  PRIM.tstrip_3d (vert_list, n_verts)
+
+
+SPHERES AND CIRCLES
+
+  SET.cirres (cirres)
+  SET.cirres_n (n, cirres)
+  GET.cirres (n): cirres
+  PRIM.circle_2dim (radius)
+  PRIM.disc_2dim (radius)
+  PRIM.sphere_3d (x, y, z, radius)
+
+
+RAY TRACING
+
+  SET.ray_callback (routine_pointer)
+  SET.ray_delete
+  SET.ray_save (onoff)
+  GET.ray_bounds_3dw (xmin, xmax, ymin, ymax, zmin, zmax, stat)
+  GET.ray_callback (routine_pointer)
+  PRIM.ray_trace_2dimi (dx, dy)
+
+
+SHADING
+
+  SET.backface (bface_id)
+  SET.cache_version (version)
+  SET.iterp_shade_mode (iterp, shmode)
+  SET.ncache_version (version)
+  SET.shade_geom (geom_mode)
+  SET.shnorm_break_cos (c)
+  SET.shnorm_unitized (yesno)
+  SET.vert3d_ent_all_off
+  SET.vert3d_ent_off (ent_type)
+  SET.vert3d_ent_on (ent_type, offset)
+  SET.vert3d_ent_on_always (ent_type)
+  rend_make_spokes_pnt (vertex, vert1, vert2, spokes_lists)
+  rend_spokes_to_norm (vertex, unitize, shade_norm)
+  rend_vs_to_spokes (v_list, n_v, vertex, spokes_sets_p)
+
+
+SURFACE PROPERTIES
+
+  SET.suprop_all_off
+  SET.suprop_diff (red, grn, blu)
+  SET.suprop_emis (red, grn, blu)
+  SET.suprop_on (suprop_id, onoff)
+  SET.suprop_spec (red, grn, blu, exponent)
+  SET.suprop_trans (front_opac, side_opac)
+  SET.suprop_val (suprop_id, value)
+  SET.surf_face_curr (face_id)
+  SET.surf_face_on (onoff)
+  GET.suprop (suprop_id, onoff, value)
+
+
+TEXT
+
+  SET.text_parms (text_parms)
+  SET.text_pos_org
+  GET.text_parms (text_parms)
+  GET.txbox_text (str, str_len, base_vect, up_vect, xy)
+  GET.txbox_txdraw (str, str_len, base_vect, up_vect, xy)
+  PRIM.poly_text (n, verts)
+  PRIM.poly_txdraw (n, verts)
+  PRIM.rvect_text (dx, dy)
+  PRIM.rvect_txdraw (dx, dy)
+  PRIM.text (string, len)
+  PRIM.text_raw (string, len)
+  PRIM.vect_text (x, y)
+  PRIM.vect_txdraw (x, y)
+
+
+TEXTURE MAPPING
+
+  SET.tmap_accur (accuracy_requirements)
+  SET.tmap_changed
+  SET.tmap_dimension (level)
+  SET.tmap_flims (min_size, max_size)
+  SET.tmap_filt (filtering_method)
+  SET.tmap_func (tmap_func_id)
+  SET.tmap_method (tmap_method_id)
+  SET.tmap_on (onoff)
+  SET.tmap_src (iterp, bitmap_handle, iterp_offset, dx, dy, x, y)
+
+
+TRANSFORMATIONS
+
+  SET.eyedis (eyedis)
+  SET.new_view
+  SET.perspec_on (onoff)
+  SET.xform_text (xb, yb, ofs)
+  SET.xform_2d (xb, yb, ofs)
+  SET.xform_3d (xb, yb, zb, ofs)
+  SET.xform_3d_postmult (mat3x4)
+  SET.xform_3d_premult (mst3x4)
+  SET.xform_3dpl_2d (xb, yb, ofs)
+  SET.xform_3dpl_plane (origin, xb, yb)
+  GET.bxfnv_3d (in_xyz, out_xyz)
+  GET.bxfpnt_2d (in_xy, out_xy)
+  GET.bxfpnt_3d (in_xyz, out_xyz)
+  GET.bxfpnt_3dpl (in_xyz, out_xy)
+  GET.bxfv_3d (in_xyz, out_xyz)
+  GET.perspec (onoff)
+  GET.xfnorm_3d (in_normvect, out_normvect)
+  GET.xform_2d (xb, yb, ofs)
+  GET.xform_3d (xb, yb, zb, ofs)
+  GET.xform_3dpl_2d (xb, yb, ofs)
+  GET.xform_3dpl_plane (org, xb, yb)
+  GET.xform_text (xb, yb, ofs)
+  GET.xfpnt_2d (in_xy, out_xy)
+  GET.xfpnt_3d (in_xyz, out_xyz)
+  GET.xfpnt_3dpl (in_xy, out_xyz)
+  GET.xfpnt_text (in_xy, out_xy)
+  GET.xfvect_text (in_dyx, out_dxy)
+
+
+VECTORS
+
+  SET.vect_parms (vect_parms)
+  GET.vect_parms (vect_parms)
+  PRIM.chain_vect_3d (n_verts, vert_p_list)
+  PRIM.line_3d (v1, v1, gnorm)
+  PRIM.rvect_text (dx, dy)
+  PRIM.rvect_txdraw (dx, dy)
+  PRIM.rvect_2d (dx, dy)
+  PRIM.rvect_2dim (dx, dy)
+  PRIM.rvect_2dimcl (dx, dy)
+  PRIM.rvect_3dpl (dx, dy)
+  PRIM.vect_text (x, y)
+  PRIM.vect_txdraw (x, y)
+  PRIM.vect_2d (x, y)
+  PRIM.vect_2dim (x, y)
+  PRIM.vect_2dimcl (x, y)
+  PRIM.vect_3d (x, y, z)
+  PRIM.vect_3dpl (x, y)
+  PRIM.vect_3dw (x, y, z)
+  PRIM.vect_fp_2dim (x, y)
+  PRIM.vect_int_2dim (x, y)
+  PRIM.vect_2dimi (x, y)
+
+
+Z BUFFER
+
+  SET.z_clip (near, far)
+  SET.zfunc (zfunc)
+  SET.zon (onoff)
+  SET.z_range (near, far)
+  GET.z_2d (z)
+  GET.z_bits (n)
+  GET.z_clip (near, far)

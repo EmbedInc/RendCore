@@ -1,0 +1,226 @@
+                      rendlib.dev Environment File
+                            24 October 2004
+
+This is an environment file, and supplies locgical device mapping and
+static default information to RENDlib.  RENDlib is Embed Inc's graphics
+library used by programs that do drawing, such as IMAGE_DISP.  See the
+ENVIRONMENT_FILES documentation file for a description of the
+environment file mechanism.
+
+
+                          RENDlib device names
+
+Application programs select RENDlib devices with a string.  The first
+token in the string is the RENDlib device name.  Remaining tokens are
+optional parameters that are specific to each device.
+
+There are two types of RENDlib device names, inherent and logical.
+Inherent devices are those that actually exist in RENDlib directly.
+Logical devices must be translated eventually to inherent devices by
+the rendlib.dev environment file set.  Inherent RENDlib device names
+always start and end with the character "*".  All RENDlib device names
+are case-insensitive.
+
+Current RENDlib inherent devices with their allowed parameters are:
+
+  *NONE*
+
+       Nonexistant device.  The DEVICE NOT PRESENT status is always
+       returned when an application tries to open this device.  This
+       may be used to signal some applications that graphics output is
+       not desired, even if a suitable device is present.
+
+  *SW* [options]
+
+       Software bitmap.  Drawing is to a software bitmap only and is
+       not displayed anywhere.  An application might use this to create
+       a bitmap for internal uses or to eventually write an image
+       file.
+
+       The options are:
+
+         IMG fnam
+
+              Copy the software bitmap into the indicated image file
+              when the device is closed.
+
+         SIZE dx dy
+
+              Set the initial size of the software bitmap.
+
+         ASPECT dx dy
+
+              Set the aspect ratio of the whole image.  DX and DY are
+              the relative width and height, respectively, of the image
+              when properly viewed.
+
+  *WINDOW* [<window specifier string>]
+
+       Drawing is to a system window.  The default window is the one
+       displaying the standard output text.  The window specifiers
+       string is described below.
+
+  *SCREEN* [<screen specifier string>]
+
+       Drawing is to a whole workstation screen.  The default screen is
+       the one where the standard output text is being displayed.  The
+       screen specifier is described below.
+
+  *TGA*
+
+       Truevision TARGA+ video output board.  This is the drawing
+       device used by the SVS1-T video system.  It must be deliberately
+       installed before it exists on a node.
+
+
+SCREEN SPECIFIER
+
+  A workstation screen is identified by the workstation name, the
+  number of the server handling that screen, and the screen within all
+  the screens handled by that server.  The server and screen fields can
+  usually be omitted since most workstations have only one screen, and
+  therefore only one server.
+
+  The format of a complete system screen identifier is:
+
+    <machine name>:<server ID>.<screen ID>
+
+  Each field may be omitted to indicate the default value.
+
+  The machine name, if specified, must be either the name of a machine
+  on your network, or "-PROC".  The value "-PROC" indicates the machine
+  where the process is running.  The default machine is the one where
+  the standard output text for this process is being displayed.  The
+  device is treated as not being present when the standard output
+  screen can't be reliably determined.
+
+  The server ID is a number on X-window systems.  The default server is
+  the one controlling the screen where standard output is being
+  displayed.
+
+  The screen ID is a number on X-window systems.  The default screen is
+  the one where standard output is being displayed.
+
+  The default when all three fields are not specified is the screen
+  where standard output is being displayed.  This is taken from the
+  DISPLAY environment variable, if present.  If the DISPLAY environment
+  variable is not found, then the REMOTEHOST environment variable is
+  used to get the machine name, and zeros are assumed for the server
+  and screen IDs.
+
+  The ":" and/or "." punctuation characters may be omitted when all the
+  fields to the right of them are empty (default values).  For example,
+  "mongo:." is the same as "mongo:" and "mongo".  On X-window systems,
+  this is usually the same as "mongo:0.0", since the default server and
+  screen numbers are both zero when a machine has only one screen.
+
+  No blanks are allowed between fields or around the punctuation
+  characters, although the entire string may have trailing blanks.  If
+  a field contains blanks or any of the punctuation characters, then it
+  must be enclosed in quotes ("") or apostrophies ('').  The ":" after
+  the machine name may be repeated once.  Thus "joe:1" is the same as
+  "joe::1".
+
+
+WINDOW SPECIFIER
+
+  A window specifier starts with a screen specifier, which is then
+  followed by a list of options that identify the particular window on
+  that screen.  There must be at least one space between each of the
+  options, parameters, and the screen specifier string.  The entire
+  window specifier string must be enclosed in quotes ("") or
+  apostrophies ('') if it contains any spaces.  The options are:
+
+    <integer number>
+
+         This identifies the window directly by its system ID number.
+         To get a list of windows with their ID numbers on X window
+         systems, run the X_WINDS program.
+
+    -STDOUT
+
+         Selects the window where standard output is being displayed.
+         This is the default if a window is not otherwise selected.
+
+    -ROOT
+
+         Selects the root window of the screen.
+
+    -DIR
+
+         Forces use of this window directly.  The application is not
+         allowed to create a subordinate window, and then draw into
+         that.
+
+    -INDIR
+
+         The indicated window must not be used directly.  The
+         application must always create a subordinate window to draw
+         into.  This flag is mutually exclusive with -DIR.  When
+         neither flag is specified, the application may use the window
+         directly or indirectly, as it deems appropriate.
+
+    -NOWM
+
+         Indicates that an attempt should be made to prevent the window
+         manager from interfering with any newly created windows.  Most
+         window managers only interfere with windows that are directly
+         subordinate to the root window.
+
+    -POS x y
+
+         Implies -INDIR, and specifies the position of the top left
+         corner of the new window with respect to the top left corner
+         of the parent window.
+
+    -SIZE dx dy
+
+         Implies -INDIR, and specifies the size of the new window.
+
+    -NAME name
+
+         Sets the window name if a new window is created.  Most window
+         managers display this name in the "banner" section at the top
+         of the window.  The name string must be quoted if it contains
+         any spaces.  The default is the name of the program running
+         the process.
+
+    -ICNAME name
+
+         Sets the icon name if a new window is created.  Most window
+         managers somehow display this name when the window is
+         iconified.  The default is the window name.
+
+  Note that many window managers do not allow applications to specify
+  all the parameters described here.  Some window managers may
+  interpret these parameters as "suggestions", and others may ignore
+  then totally.  RENDlib will make the requests, but ultimately you get
+  what the window manager decides to give you.
+
+
+                      Commands in rendlib.dev File
+
+Valid commands for the rendlib.dev environment file set are:
+
+  DEV_ALIAS <logical device name> <first dev string> [ ... <other dev
+       strings>]
+
+       Declare the meaning of a logical RENDlib device name.  If more
+       than one target device string is given, then the first device
+       that is found to exist is used.  The first token in each target
+       device string must be the target device name.  This may be an
+       inherent or logical device name, so long as the logical device
+       name can be eventually translated to an inherent device name.
+       Remaining tokens in each device string are optional parameters
+       that are specific to each device.  The new parameters will be
+       added to the beginning of any existing list of parameters.
+       Existing parameters may have come directly from the application
+       thru the REND_OPEN call, or may have accumulated from previous
+       DEV_ALIAS commands if the input logical device name was a result
+       of a previous translation.
+
+       A target device string must be enclosed in apostrophies ('') or
+       quotes ("") if it contains any blanks.
+
+       It may be helpful to look at env/rendlib.dev within the software
+       installation directory.
