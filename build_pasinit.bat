@@ -5,7 +5,6 @@ rem
 call build_vars
 
 call src_go %srcdir%
-call src_getfrom sys base.ins.pas
 call src_getfrom sys sys.ins.pas
 call src_getfrom sys sys_sys2.ins.pas
 call src_getfrom util util.ins.pas
@@ -13,7 +12,7 @@ call src_getfrom string string.ins.pas
 call src_getfrom file file.ins.pas
 call src_getfrom vect vect.ins.pas
 call src_getfrom math math.ins.pas
-call src_getfrom imglib img.ins.pas
+call src_getfrom img img.ins.pas
 call src_getfrom ray ray.ins.pas
 call src_getfrom ray ray_type1.ins.pas
 
