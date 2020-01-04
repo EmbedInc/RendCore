@@ -353,6 +353,7 @@ type
     rend_ev_wiped_rect_k,              {rectangle of pixels wiped out, now redrawable}
     rend_ev_wiped_resize_k,            {all pixels wiped out, now redrawable}
     rend_ev_key_k,                     {a user-pressable key changed state}
+    rend_ev_scrollv_k,                 {vertical scroll input from user, like mouse wheel}
     rend_ev_pnt_enter_k,               {pointer entered draw area}
     rend_ev_pnt_exit_k,                {pointer left draw area}
     rend_ev_pnt_move_k,                {pointer location changed}
@@ -846,6 +847,10 @@ rend_ltype_pr2_k: (                    {point light source, 1/R**2 falloff}
     modk: rend_key_mod_t;              {state of modifier keys}
     end;
 
+  rend_event_scroll_t = record         {scroll input from user, like mouse wheel}
+    n: sys_int_machine_t;              {number of scroll up or right events}
+    end;
+
   rend_event_pnt_t = record            {data for PNT_MOVE, PNT_ENTER, PNT_EXIT events}
     x, y: sys_int_machine_t;           {new pointer coordinates within device}
     end;
@@ -912,6 +917,9 @@ rend_ev_wiped_resize_k: (              {all pixels wiped out, now redrawable}
       );
 rend_ev_key_k: (                       {a user-pressable key changed state}
       key: rend_event_key_t;
+      );
+rend_ev_scrollv_k: (                   {vertical scroll input by user}
+      scrollv: rend_event_scroll_t;
       );
 rend_ev_pnt_enter_k: (                 {pointer entered draw area}
       pnt_enter: rend_event_pnt_t;
