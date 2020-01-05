@@ -330,7 +330,12 @@ type
     rend_key_sp_arrow_left_k,          {regular arrow keys}
     rend_key_sp_arrow_right_k,
     rend_key_sp_arrow_up_k,
-    rend_key_sp_arrow_down_k);
+    rend_key_sp_arrow_down_k,
+    rend_key_sp_pageup_k,              {Page Up}
+    rend_key_sp_pagedn_k,              {Page Down}
+    rend_key_sp_del_k,                 {Delete}
+    rend_key_sp_home_k,                {Home}
+    rend_key_sp_end_k);                {End}
 {
 *   Mnemonics for all the modifier keys.  These keys modify the behavior of
 *   other keys.
