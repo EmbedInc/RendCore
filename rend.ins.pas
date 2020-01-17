@@ -335,7 +335,10 @@ type
     rend_key_sp_pagedn_k,              {Page Down}
     rend_key_sp_del_k,                 {Delete}
     rend_key_sp_home_k,                {Home}
-    rend_key_sp_end_k);                {End}
+    rend_key_sp_end_k,                 {End}
+    rend_key_sp_enter_k,               {ENTER or RETURN}
+    rend_key_sp_esc_k,                 {Escape}
+    rend_key_sp_back_k);               {Backspace}
 {
 *   Mnemonics for all the modifier keys.  These keys modify the behavior of
 *   other keys.
