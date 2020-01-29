@@ -446,7 +446,8 @@ type
     nsides: sys_int_machine_t;         {number of sides for semi-circle style type}
     end;
 
-  rend_vect_parms_t = record           {modes and swithes for vect to poly convert}
+  rend_vect_parms_p_t = ^rend_vect_parms_t;
+  rend_vect_parms_t = record           {modes and switches for vect to poly convert}
     width: real;                       {total width of vector if make polygon}
     poly_level: rend_space_k_t;        {which level, if any, to convert to polygon}
     start_style: rend_end_style_t;     {what shape to make start of vector cap}
@@ -454,6 +455,7 @@ type
     subpixel: boolean;                 {TRUE if use supixel adr instead of integer}
     end;
 
+  rend_text_parms_p_t = ^rend_text_parms_t;
   rend_text_parms_t = record           {state controlling how text is drawn}
     size: real;                        {overall absolute character cell size}
     width: real;                       {relative character cell width}
