@@ -856,6 +856,11 @@ procedure rend_sw_get_reading_sw_prim ( {find if specific primitive reads from S
   out     sw_read: boolean);           {TRUE if prim will read from SW bitmap}
   extern;
 
+procedure rend_sw_get_rgba (           {get flat RGBA color setting}
+  out     red, grn, blu: real;         {0.0 to 1.0 color, 0 for off}
+  out     alp: real);                  {0.0 to 1.0 opacity, 1 for off}
+  val_param; extern;
+
 procedure rend_sw_get_suprop (         {get current state of a surface property}
   in      suprop: rend_suprop_k_t;     {surface property ID, use REND_SUPROP_xxx_K}
   out     on: boolean;                 {TRUE if this surface property turned ON}
@@ -1382,6 +1387,11 @@ procedure rend_sw_rgbz_quad (          {set quadratic RGB and linear Z values}
 procedure rend_sw_run_config (         {configure run length pixel data format}
   in      pxsize: sys_int_adr_t;       {machine adr offset from one run to next}
   in      runlen_ofs: sys_int_adr_t);  {machine address into pixel start for runlen}
+  val_param; extern;
+
+procedure rend_sw_set_rgba (           {set flat RGBA color}
+  in      red, grn, blu: real;         {0.0 to 1.0 red, green, blue color values}
+  in      alp: real);                  {0.0 to 1.0 opacity fraction}
   val_param; extern;
 
 procedure rend_sw_shade_geom (         {set geometry mode for implicit color gen}

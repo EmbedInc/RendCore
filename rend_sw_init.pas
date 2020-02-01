@@ -240,6 +240,7 @@ begin
   rend_sw_set.rcpnt_3dpl := addr(rend_sw_rcpnt_3dpl);
   rend_sw_set.rcpnt_text := addr(rend_sw_rcpnt_text);
   rend_sw_set.rgb := addr(rend_sw_rgb);
+  rend_sw_set.rgba := addr(rend_sw_set_rgba);
   rend_sw_set.rgbz_linear := addr(rend_sw_rgbz_linear);
   rend_sw_set.rgbz_quad := addr(rend_sw_rgbz_quad);
   rend_sw_set.run_config := addr(rend_sw_run_config);
@@ -351,6 +352,7 @@ begin
   rend_sw_get.ray_callback := addr(rend_sw_get_ray_callback);
   rend_sw_get.reading_sw := addr(rend_sw_get_reading_sw);
   rend_sw_get.reading_sw_prim := addr(rend_sw_get_reading_sw_prim);
+  rend_sw_get.rgba := addr(rend_sw_get_rgba);
   rend_sw_get.suprop := addr(rend_sw_get_suprop);
   rend_sw_get.text_parms := addr(rend_sw_get_text_parms);
   rend_sw_get.txbox_text := addr(rend_sw_get_txbox_text);

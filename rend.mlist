@@ -182,6 +182,7 @@ rend_sw_rcpnt_text.obj
 rend_sw_reset_refresh.obj
 rend_sw_restore_cmode.obj
 rend_sw_rgb.obj
+rend_sw_rgba.obj
 rend_sw_rgbz_linear.obj
 rend_sw_rgbz_quad.obj
 rend_sw_run_config.obj

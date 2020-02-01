@@ -193,6 +193,7 @@ call src_pas %srcdir% %libname%_sw_rcpnt_text %1
 call src_pas %srcdir% %libname%_sw_reset_refresh %1
 call src_pas %srcdir% %libname%_sw_restore_cmode %1
 call src_pas %srcdir% %libname%_sw_rgb %1
+call src_pas %srcdir% %libname%_sw_rgba %1
 call src_pas %srcdir% %libname%_sw_rgbz_linear %1
 call src_pas %srcdir% %libname%_sw_rgbz_quad %1
 call src_pas %srcdir% %libname%_sw_run_config %1

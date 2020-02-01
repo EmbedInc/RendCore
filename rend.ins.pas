@@ -1720,6 +1720,11 @@ rgb: ^procedure (                      {set flat RGB color}
   in      r, g, b: real);              {red, green, blue color values, 0.0 to 1.0}
   val_param;
 
+rgba: ^procedure (                     {set flat RGBA color}
+  in      red, grn, blu: real;         {0.0 to 1.0 red, green, blue color values}
+  in      alp: real);                  {0.0 to 1.0 opacity fraction}
+  val_param;
+
 rgbz_linear: ^procedure (              {set linear values for RGBZ interpolants}
   in      v1, v2, v3: rend_color3d_t); {XYZ and RGB at three points}
 
@@ -2156,6 +2161,11 @@ reading_sw: ^procedure (               {find out if reading SW bitmap}
 reading_sw_prim: ^procedure (          {find if specific primitive reads from SW}
   in      prim_p: univ_ptr;            {call table entry for primitive to ask about}
   out     sw_read: boolean);           {TRUE if prim will read from SW bitmap}
+
+rgba: ^procedure (                     {get RGBA color, undefined if not flat}
+  out     red, grn, blu: real;         {0.0 to 1.0 color, 0 for off}
+  out     alp: real);                  {0.0 to 1.0 opacity, 1 for off}
+  val_param;
 
 suprop: ^procedure (                   {get current state of a surface property}
   in      suprop: rend_suprop_k_t;     {surface property ID, use REND_SUPROP_xxx_K}
