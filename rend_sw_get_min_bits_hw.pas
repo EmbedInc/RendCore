@@ -2,14 +2,6 @@
 *
 *   Return current value of the MIN_BITS_HW parameters.
 }
-{
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-}
 module rend_sw_get_min_bits_hw;
 define rend_sw_get_min_bits_hw;
 %include 'rend_sw2.ins.pas';

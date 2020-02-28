@@ -7,13 +7,6 @@
 *   Keep REND_VERT3D_ON_LIST array up to date.  Array entries from 0 to
 *   REND_VERT3D_LAST_LIST_ENT contain the index value for each currently enabled
 *   field in a 3D vertex descriptor.
-*
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 }
 module rend_config_vert3d;
 define rend_config_vert3d;

@@ -9,14 +9,6 @@
 *   TP is the tube point descriptor.  The XB and YB fields must already be
 *   set.  The ZB, NXB, NYB, and NZB fields will be set by this call.
 }
-{
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-}
 module rend_tbpoint_2d_3d;
 define rend_tbpoint_2d_3d;
 %include 'rend2.ins.pas';

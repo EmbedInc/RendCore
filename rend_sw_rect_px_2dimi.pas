@@ -23,14 +23,6 @@
 *   PRIM_DATA sw_write no
 *   PRIM_DATA sw_read no
 }
-{
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-}
 module rend_sw_rect_px_2dimi;
 define rend_sw_rect_px_2dimi;
 %include 'rend_sw2.ins.pas';

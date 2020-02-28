@@ -5,13 +5,6 @@
 *
 *   WARNING:  This routine has the side effect of leaving the current device out
 *     of graphics mode, regardless of what state it was on entry.
-*
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 }
 module rend_dev_save;
 define rend_dev_save;

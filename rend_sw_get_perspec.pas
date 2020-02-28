@@ -1,13 +1,6 @@
 {   Subroutine REND_SW_GET_PERSPEC (ON,EYEDIS)
 *
 *   Return the current perspective parameters.
-*
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 }
 module rend_sw_get_perspec;
 define rend_sw_get_perspec;

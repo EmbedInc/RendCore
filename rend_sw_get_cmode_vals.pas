@@ -4,14 +4,6 @@
 *   VALS.  This is intended to be used with the SET.CMODE_VALS call to restore the
 *   changeable modes.
 }
-{
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-}
 module rend_sw_get_cmode_vals;
 define rend_sw_get_cmode_vals;
 %include 'rend_sw2.ins.pas';

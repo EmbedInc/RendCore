@@ -3,14 +3,6 @@
 *   Deleate all light sources.  All existing light source handles must be
 *   considered invalid after this call.
 }
-{
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-}
 module rend_sw_del_all_lights;
 define rend_sw_del_all_lights;
 %include 'rend_sw2.ins.pas';

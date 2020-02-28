@@ -3,13 +3,6 @@
 *   Return a pointer to the 3D vertex index value of a particular entry type.
 *   The pointer will point to one of the common block variables of name
 *   REND_xxx_IND.
-*
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 }
 module rend_vert3d_ind_adr;
 define rend_vert3d_ind_adr;

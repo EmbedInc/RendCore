@@ -15,13 +15,6 @@
 *
 *   There are no primitives that benefit from being grouped in the software (SW)
 *   device.
-*
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 }
 module rend_sw_start_group;
 define rend_sw_start_group;

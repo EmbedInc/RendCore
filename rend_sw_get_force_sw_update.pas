@@ -2,13 +2,6 @@
 *
 *   Return the current state of the FORCE_SW_UPDATE flag.  This flag is only set
 *   thru the call REND_SET.FORCE_SW_UPDATE.
-*
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 }
 module rend_sw_get_force_sw_update;
 define rend_sw_get_force_sw_update;

@@ -4,14 +4,6 @@
 *   window shakeup handler after the device with the shakeup is swapped in.
 *   This routine is installed in the REND_INTERNAL call table.
 }
-{
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-}
 module rend_sw_reset_refresh;
 define rend_sw_reset_refresh;
 %include 'rend_sw2.ins.pas';

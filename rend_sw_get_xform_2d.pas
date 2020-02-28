@@ -3,14 +3,6 @@
 *   Return the current user-view 2D transform.  This is the transform that converts
 *   from 2D model space to the +-1.0 image space.
 }
-{
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-}
 module rend_sw_get_xform_2d;
 define rend_sw_get_xform_2d;
 %include 'rend_sw2.ins.pas';

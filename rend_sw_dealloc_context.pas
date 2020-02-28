@@ -4,14 +4,6 @@
 *   HANDLE.  This must be the same handle originally created by
 *   REND_SET.ALLOC_CONTEXT.
 }
-{
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-}
 module rend_sw_dealloc_context;
 define rend_sw_dealloc_context;
 %include 'rend_sw2.ins.pas';

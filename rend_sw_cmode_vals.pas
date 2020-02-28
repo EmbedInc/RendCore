@@ -12,14 +12,6 @@
 *   software update flag will still be off, although it was on in VALS.  Any modes
 *   that are not restored as in VALS are flagged as having been changed.
 }
-{
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-}
 module rend_sw_cmode_vals;
 define rend_sw_cmode_vals;
 %include 'rend_sw2.ins.pas';

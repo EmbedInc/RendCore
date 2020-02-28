@@ -4,14 +4,6 @@
 *   V1, V2, and V3 each contain 6 floating point numbers in the order XYZRGB.
 *   These three data points are used to define the linear color/Z surface.
 }
-{
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-}
 module rend_sw_rgbz_linear;
 define rend_sw_rgbz_linear;
 %include 'rend_sw2.ins.pas';

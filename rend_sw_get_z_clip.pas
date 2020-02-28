@@ -1,13 +1,6 @@
 {   Subroutine REND_SW_GET_Z_CLIP (NEAR,FAR)
 *
 *   Return the current coordinates of the 3D world space Z clipping planes.
-*
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 }
 module rend_sw_get_z_clip;
 define rend_sw_get_z_clip;

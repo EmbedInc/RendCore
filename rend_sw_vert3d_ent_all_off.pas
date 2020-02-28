@@ -1,13 +1,6 @@
 {   Subroutine REND_SW_VERT3D_ENT_ALL_OFF
 *
 *   Turn off all 3D vertex descriptor entries.
-*
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 }
 module rend_sw_vert3d_ent_all_off;
 define rend_sw_vert3d_ent_all_off;

@@ -6,14 +6,6 @@
 *   Z surface.  The remaining verticies (V4-V6) are used together with V1-V3 to
 *   compute the quadratic RGB surfaces.  The Z values of V4-V6 are ignored.
 }
-{
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-}
 module rend_sw_rgbz_quad;
 define rend_sw_rgbz_quad;
 %include 'rend_sw2.ins.pas';

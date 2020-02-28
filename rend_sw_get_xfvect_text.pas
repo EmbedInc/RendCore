@@ -3,14 +3,6 @@
 *   Transform a vector from the TEXT space to the TXDRAW space.  IN_V and OUT_V
 *   may the same variable.
 }
-{
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-}
 module rend_sw_get_xfvect_text;
 define rend_sw_get_xfvect_text;
 %include 'rend_sw2.ins.pas';

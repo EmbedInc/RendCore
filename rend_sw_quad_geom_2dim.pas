@@ -9,14 +9,6 @@
 *   points be linearly independent, in addition to all six points being
 *   quadratically independent.
 }
-{
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-}
 module rend_sw_quad_geom_2dim;
 define rend_sw_quad_geom_2dim;
 %include 'rend_sw2.ins.pas';

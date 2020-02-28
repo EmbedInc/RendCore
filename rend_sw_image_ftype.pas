@@ -6,14 +6,6 @@
 *   See the IMAGE_TYPES help file for a discussion of the various supported
 *   image file types.
 }
-{
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-}
 module rend_sw_image_ftype;
 define rend_sw_image_ftype;
 %include 'rend_sw2.ins.pas';

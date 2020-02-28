@@ -2,14 +2,6 @@
 *
 *   Transform a point from the TEXT coordinate space to the TXDRAW coordinate space.
 }
-{
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-}
 module rend_sw_get_xfpnt_text;
 define rend_sw_get_xfpnt_text;
 %include 'rend_sw2.ins.pas';

@@ -3,13 +3,6 @@
 *   Restore the indicated call table entry to point to the current software device
 *   routine for that entry.  CALL_P is the call table entry that points to the
 *   routine entry point.
-*
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 }
 module rend_prim_restore_sw;
 define rend_prim_restore_sw;

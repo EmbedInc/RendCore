@@ -7,14 +7,6 @@
 *   comments.  The call REND_SET.IMAGE_WRITE^ writes a rectangle from the current
 *   bitmap to an image file.
 }
-{
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-}
 module rend_sw_get_comments_list;
 define rend_sw_get_comments_list;
 %include 'rend_sw2.ins.pas';

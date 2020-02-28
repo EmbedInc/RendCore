@@ -3,13 +3,6 @@
 *   Return the effective Z "coordinate" as it would exist if transformed from the
 *   3DW into the 2D space.  Note that this has nothing to do with the current
 *   Z interpolant value.
-*
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-*   ::        CONFIDENTIAL AND PROPRIETARY INFORMATION OF        ::
-*   ::                    COGNIVISION, INC.                      ::
-*   ::           PROTECTED BY THE COPYRIGHT LAW AS AN            ::
-*   ::                    UNPUBLISHED WORK                       ::
-*   :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 }
 module rend_sw_get_z_2d;
 define rend_sw_get_z_2d;
