@@ -6,6 +6,7 @@ rend_dev_set.obj
 rend_dummy.obj
 rend_end.obj
 rend_events.obj
+rend_evqueue.obj
 rend_get_all_prim_access.obj
 rend_get_prim_access.obj
 rend_install_prim.obj
@@ -22,6 +23,7 @@ rend_reset_call_tables.obj
 rend_spokes_to_norm.obj
 rend_start.obj
 rend_state_to_context.obj
+rend_stdin.obj
 rend_sw_aa_radius.obj
 rend_sw_aa_scale.obj
 rend_sw_add_sblock.obj

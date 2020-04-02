@@ -3,7 +3,6 @@
 *   installed in response to the REND_BENCH flags.
 }
 module rend_dummy;
-define rend_dummy0;
 define rend_dummy_poly_2d;
 define rend_dummy_quad_3d;
 define rend_dummy_tri_3d;
@@ -110,13 +109,6 @@ define
       nil
       ]
     ];
-{
-************************************************
-}
-procedure rend_dummy0;
-
-begin
-  end;
 {
 ************************************************
 }

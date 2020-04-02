@@ -17,6 +17,7 @@ call src_pas %srcdir% %libname%_dev_set %1
 call src_pas %srcdir% %libname%_dummy %1
 call src_pas %srcdir% %libname%_end %1
 call src_pas %srcdir% %libname%_events %1
+call src_pas %srcdir% %libname%_evqueue %1
 call src_pas %srcdir% %libname%_get_all_prim_access %1
 call src_pas %srcdir% %libname%_get_prim_access %1
 call src_pas %srcdir% %libname%_install_prim %1
@@ -33,6 +34,7 @@ call src_pas %srcdir% %libname%_reset_call_tables %1
 call src_pas %srcdir% %libname%_spokes_to_norm %1
 call src_pas %srcdir% %libname%_start %1
 call src_pas %srcdir% %libname%_state_to_context %1
+call src_pas %srcdir% %libname%_stdin %1
 call src_pas %srcdir% %libname%_sw_aa_radius %1
 call src_pas %srcdir% %libname%_sw_aa_scale %1
 call src_pas %srcdir% %libname%_sw_add_sblock %1

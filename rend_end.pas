@@ -18,6 +18,11 @@ begin
     rend_dev_set (dev);                {make this device current}
     rend_set.close^;                   {close this device}
     end;                               {back and process next device}
+
+  rend_evqueue_dealloc (rend_evq);     {release events queue resources}
+
+  rend_stdin_close (rend_stdin);       {release STDIN handline resources}
+
   if rend_mem_context_p <> nil then
     util_mem_context_del (rend_mem_context_p); {release all RENDlib dynamic memory}
   end;

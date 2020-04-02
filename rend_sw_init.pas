@@ -704,8 +704,14 @@ begin
   rend_pointer.root_y := 0;
   rend_pointer.root_inside := true;
 
+  {   Set up the top level device descriptor for this device.  The following
+  *   fields have already been initialized in REND_OPEN:
+  *
+  *     SAVE_AREA_P
+  *     MEM_P
+  *     OPEN
+  }
   with rend_device[rend_dev_id]: dev do begin {DEV is our device descriptor}
-    dev.ev_check := nil;               {no event check routine exists}
     dev.keys_enab := 0;                {no individual keys enabled for events}
     dev.keys_max := rend_max_keys_k;   {number of available key descriptors}
     dev.keys_n := 0;                   {number of defined keys in list}
@@ -717,7 +723,6 @@ begin
     dev.pnt_x := 0;
     dev.pnt_y := 0;
     dev.pnt_mode := rend_pntmode_direct_k;
-    dev.ev_wiped_resize := false;      {no pending WIPED_RESIZE event}
     dev.ev_changed := false;           {event state has not changed yet}
     end;                               {done with DEV abbreviation}
 

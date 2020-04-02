@@ -12,8 +12,6 @@ var
   stat: sys_err_t;                     {completion status code}
 
 begin
-  rend_dev_evcheck_set (nil);          {this device no longer has event check call}
-
   if rend_image.fnam_auto.len > 0 then begin {automatically write image file ?}
     rend_image.ftype.len := 0;         {default image file type from FNAM_AUTO}
     rend_set.image_write^ (            {write image file from final bitmap}

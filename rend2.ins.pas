@@ -55,7 +55,6 @@ const
 type
   rend_evglb_k_t = (                   {IDs for all global RENDlib event requests}
     rend_evglb_stdin_line_k);          {STDIN_LINE events}
-
   rend_evglb_t =                       {set of all global RENDlib event requests}
     set of rend_evglb_k_t;
 
@@ -68,19 +67,12 @@ type
     rend_evdev_pnt_k,                  {PNT_ENTER, PNT_EXIT, PNT_MOVE events}
     rend_evdev_rotate_k,               {3D rotations}
     rend_evdev_translate_k);           {3D translations}
-
   rend_evdev_t =                       {set of all device-specific event requests}
     set of rend_evdev_k_t;
-
-  rend_event_check_p_t = ^function (   {device routine used to check for events}
-    in    wait: boolean)               {wait for event when TRUE}
-    :boolean;                          {TRUE if event returned}
-    val_param;
 
   rend_device_t = record               {permanent data about each device}
     save_area_p: rend_context_p_t;     {handle to current context when swapped out}
     mem_p: util_mem_context_p_t;       {pnt to memory context for this device}
-    ev_check: rend_event_check_p_t;    {points to event check routine, may be NIL}
     keys_enab: sys_int_machine_t;      {number of individual keys enabled for events}
     keys_max: sys_int_machine_t;       {number of allocated key desc in KEYS_P^}
     keys_n: sys_int_machine_t;         {number of actual keys in KEYS_P^}
@@ -89,34 +81,47 @@ type
     scale_3drot: real;                 {scale factor for 3D rotation events}
     pnt_x, pnt_y: sys_int_machine_t;   {current 2D pointer coordinates}
     pnt_mode: rend_pntmode_k_t;        {2D pointer motion interpretation}
-    ev_wiped_resize: boolean;          {TRUE if WIPED_RESIZE event pending to user}
-    ev_changed: boolean;               {event configuration state changed}
     open: boolean;                     {TRUE if device is open}
+    ev_changed: boolean;               {event config changed, for CHECK_MODES}
     end;
 
-  rend_evqueue_entry_p_t =             {pointer to an event queue entry}
-    ^rend_evqueue_entry_t;
-
-  rend_evqueue_entry_t = record        {template for one event queue entry}
-    next_p: rend_evqueue_entry_p_t;    {points to next entry in queue}
+  {   The following structures should be considered opaque except in the module
+  *   REND_EVQUEUE.
+  }
+  rend_evq_ent_p_t = ^rend_evq_ent_t;
+  rend_evq_ent_t = record              {one event queue entry}
+    next_p: rend_evq_ent_p_t;          {points to next entry in queue}
     event: rend_event_t;               {actual event data}
     end;
 
+  rend_evqueue_t = record              {the global event queue}
+    mem_p: util_mem_context_p_t;       {points to context for all queue dyn mem}
+    lock: sys_sys_threadlock_t;        {mutex for accessing the queue structures}
+    first_p: rend_evq_ent_p_t;         {points to first (next event) queue entry}
+    last_p: rend_evq_ent_p_t;          {points to last queue entry}
+    free_p: rend_evq_ent_p_t;          {points to chain of unused queue entries}
+    newev: sys_sys_event_id_t;         {notified when new event added to queue}
+    locked: boolean;                   {LOCK is locked}
+    end;
+
+  {   The following structure should be considered opaque except in the module
+  *   REND_STDIN.
+  }
+  rend_stdin_t = record                {state for handling standard input events}
+    line: string_var8192_t;            {line read from STDIN}
+    evbreak: sys_sys_event_id_t;       {aborts wait of input thread}
+    evstopped: sys_sys_event_id_t;     {signalled when thread stops}
+    hline: boolean;                    {a STDIN input line is in LINE}
+    on: boolean;                       {STDIN events enabled, thread running}
+    end;
+
 var (rend2)
-  rend_event_retry_wait: real;         {seconds to wait before look for event again}
-  rend_n_evcheck: sys_int_machine_t;   {number of active event check routines}
-  rend_evcheck:                        {list of the active event check routines}
-    array[1..rend_max_devices] of rend_event_check_p_t;
+  rend_mem_context_p: util_mem_context_p_t; {pnt to top level RENDlib mem context}
   rend_evglb: rend_evglb_t;            {set of all requested global events}
   rend_device:                         {top level data about each device}
     array[1..rend_max_devices] of rend_device_t;
-  rend_mem_context_p: util_mem_context_p_t; {pnt to top level RENDlib mem context}
-  rend_evqueue_first_p: rend_evqueue_entry_p_t; {pnt to first entry in event queue}
-  rend_evqueue_last_p: rend_evqueue_entry_p_t; {pnt to last entry in event queue}
-  rend_evqueue_free_p: rend_evqueue_entry_p_t; {pnt to chain of unused queue entries}
-  rend_stdin_done: boolean;            {a complete line is in REND_STDIN_LINE}
-  rend_stdin_line: string_var8192_t;   {current input line from standard input}
-  rend_qlock: sys_sys_threadlock_t;    {single thread interlock for event queue}
+  rend_evq: rend_evqueue_t;            {events queue}
+  rend_stdin: rend_stdin_t;            {STDIN handling state}
 {
 *   Subroutine entry points.  These are private routines used by RENDlib
 *   internally.
@@ -131,20 +136,52 @@ procedure rend_context_to_state (      {copy context block to current state}
   in      context: rend_context_t);    {context block to copy from}
   extern;
 
-procedure rend_dev_evcheck_set (       {set event check routine for current device}
-  in      proc: rend_event_check_p_t); {pointer to event check routine, may be NIL}
-  val_param; extern;
-
 procedure rend_dev_save;               {copy curr device state into save area}
-  extern;
-
-procedure rend_dummy0;                 {dummy routine that takes no call args}
   extern;
 
 function rend_event_pointer_move (     {handle 2D pointer motion}
   in      dev: sys_int_machine_t;      {RENDlib device where pointer moved}
   in      newx, newy: sys_int_machine_t) {new 2D pointer coordinates}
   :boolean;                            {TRUE if an event actually enqueued}
+  val_param; extern;
+
+procedure rend_evqueue_add (           {add event to end of queue}
+  out     queue: rend_evqueue_t;       {the queue to add event to}
+  in      event: rend_event_t);        {event to add}
+  val_param; extern;
+
+procedure rend_evqueue_add_unlock (    {add event to queue, release queue lock}
+  out     queue: rend_evqueue_t;       {the queue to add event to}
+  in      event: rend_event_t);        {event to add}
+  val_param; extern;
+
+procedure rend_evqueue_dealloc (       {deallocate resources of event queue}
+  in out  queue: rend_evqueue_t);      {the queue, returned unusable}
+  val_param; extern;
+
+procedure rend_evqueue_get (           {get next event}
+  in out  queue: rend_evqueue_t;       {queue to get event from}
+  out     event: rend_event_t;         {returned event}
+  in      wait: boolean);              {returns NONE event when FALSE and no event}
+  val_param; extern;
+
+procedure rend_evqueue_init (          {initialize a event queue}
+  out     queue: rend_evqueue_t;       {the queue to initialize}
+  in out  mem: util_mem_context_t);    {parent memory context}
+  val_param; extern;
+
+procedure rend_evqueue_last_lock (     {get last event, lock the queue}
+  in out  queue: rend_evqueue_t;       {queue to get last event of}
+  out     ev_p: rend_event_p_t);       {pointer to last event in queue, NIL = none}
+  val_param; extern;
+
+procedure rend_evqueue_push (          {add event to start of queue}
+  out     queue: rend_evqueue_t;       {the queue to add event to}
+  in      event: rend_event_t);        {event to add}
+  val_param; extern;
+
+procedure rend_evqueue_unlock (        {release caller lock on queue}
+  in out  queue: rend_evqueue_t);      {queue to release lock on}
   val_param; extern;
 
 procedure rend_get_all_prim_access (   {get worst case access flags for all prims}
@@ -188,6 +225,27 @@ procedure rend_reset_call_tables;      {load all the call tables with illegal va
 procedure rend_state_to_context (      {copy current state to context block}
   in out  context: rend_context_t);    {context block to copy into}
   extern;
+
+procedure rend_stdin_close (           {end STDIN reading, deallocate resources}
+  in out  stdin: rend_stdin_t);        {state to deallocate resources of}
+  val_param; extern;
+
+procedure rend_stdin_get (             {get STDIN line, only valid after event}
+  in out  stdin: rend_stdin_t;         {STDIN reading state}
+  in out  line: univ string_var_arg_t); {returned STDIN line}
+  val_param; extern;
+
+procedure rend_stdin_init (            {init STDIN state}
+  out     stdin: rend_stdin_t);        {state to initialize}
+  val_param; extern;
+
+procedure rend_stdin_off (             {disable STDIN events}
+  in out  stdin: rend_stdin_t);        {STDIN reading state}
+  val_param; extern;
+
+procedure rend_stdin_on (              {enable STDIN events}
+  in out  stdin: rend_stdin_t);        {STDIN reading state}
+  val_param; extern;
 
 procedure rend_vert3d_ind_adr (        {get adr of 3D vertex entry index}
   in      entry_type: rend_vert3d_ent_vals_t; {ID for particular entry type}
