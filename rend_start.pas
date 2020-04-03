@@ -25,7 +25,7 @@ begin
 
   rend_evqueue_init (rend_evq, rend_mem_context_p^); {init events queue}
 
-  rend_stdin_init (rend_stdin);        {init STDIN management state}
+  rend_stdin_init;                     {init STDIN management state}
 
   rend_dev_id := 0;                    {init current device ID to none}
   rend_reset_call_tables;              {init call tables to invalid values}

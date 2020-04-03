@@ -35,6 +35,7 @@ call src_pas %srcdir% %libname%_spokes_to_norm %1
 call src_pas %srcdir% %libname%_start %1
 call src_pas %srcdir% %libname%_state_to_context %1
 call src_pas %srcdir% %libname%_stdin %1
+call src_pas %srcdir% %libname%_stdin_sys %1
 call src_pas %srcdir% %libname%_sw_aa_radius %1
 call src_pas %srcdir% %libname%_sw_aa_scale %1
 call src_pas %srcdir% %libname%_sw_add_sblock %1

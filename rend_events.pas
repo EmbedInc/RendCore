@@ -368,10 +368,10 @@ procedure rend_event_req_stdin_line (  {request STDIN_LINE events on/off}
 begin
   if on
     then begin                         {enable STDIN events}
-      rend_stdin_on (rend_stdin);
+      rend_stdin_on;
       end
     else begin                         {disable STDIN events}
-      rend_stdin_off (rend_stdin);
+      rend_stdin_off;
       end
     ;
   end;
@@ -391,7 +391,7 @@ procedure rend_get_stdin_line (        {get next line from standard input}
   in out  s: univ string_var_arg_t);   {returned line of text}
 
 begin
-  rend_stdin_get (rend_stdin, s);
+  rend_stdin_get (s);
   end;
 {
 ********************************************************************************

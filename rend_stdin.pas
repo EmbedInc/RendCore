@@ -7,15 +7,18 @@ define rend_stdin_on;
 define rend_stdin_off;
 define rend_stdin_get;
 %include 'rend2.ins.pas';
+%include 'rend_stdin.ins.pas';
+
+var
+  stdin: rend_stdin_t;                 {STDIN handling state}
 {
 ********************************************************************************
 *
-*   Subroutine REND_STDIN_INIT (STDIN)
+*   Subroutine REND_STDIN_INIT
 *
 *   Initialize the STDIN reading state, STDIN.
 }
-procedure rend_stdin_init (            {init STDIN state}
-  out     stdin: rend_stdin_t);        {state to initialize}
+procedure rend_stdin_init;             {init STDIN state}
   val_param;
 
 begin
@@ -25,23 +28,26 @@ begin
   sys_event_create_bool (stdin.evstopped);
   stdin.hline := false;
   stdin.on := false;
+
+  rend_stdin_sys_init (stdin);         {initialize system-dependent routines}
   end;
 {
 ********************************************************************************
 *
-*   Subroutine REND_STDIN_CLOSE (STDIN)
+*   Subroutine REND_STDIN_CLOSE
 *
 *   End the use of the STDIN reading state and deallocate all associated
 *   resources.
 }
-procedure rend_stdin_close (           {end STDIN reading, deallocate resources}
-  in out  stdin: rend_stdin_t);        {state to deallocate resources of}
+procedure rend_stdin_close;            {end STDIN reading, deallocate resources}
   val_param;
 
 begin
   if stdin.on then begin               {the thread is running ?}
-    rend_stdin_off (stdin);            {stop it}
+    rend_stdin_off;                    {stop it}
     end;
+
+  rend_stdin_sys_close (stdin);        {deallocate system-dependent resources}
 
   sys_event_del_bool (stdin.evbreak);  {delete the events}
   sys_event_del_bool (stdin.evstopped);
@@ -49,12 +55,11 @@ begin
 {
 ********************************************************************************
 *
-*   Subroutine REND_STDIN_ON (STDIN)
+*   Subroutine REND_STDIN_ON
 *
 *   Make sure that STDIN events are enabled.
 }
-procedure rend_stdin_on (              {enable STDIN events}
-  in out  stdin: rend_stdin_t);        {STDIN reading state}
+procedure rend_stdin_on;               {enable STDIN events}
   val_param;
 
 begin
@@ -68,12 +73,11 @@ begin
 {
 ********************************************************************************
 *
-*   Subroutine REND_STDIN_OFF (STDIN)
+*   Subroutine REND_STDIN_OFF
 *
 *   Make sure that STDIN events are disabled.
 }
-procedure rend_stdin_off (             {disable STDIN events}
-  in out  stdin: rend_stdin_t);        {STDIN reading state}
+procedure rend_stdin_off;              {disable STDIN events}
   val_param;
 
 var
@@ -90,13 +94,12 @@ begin
 {
 ********************************************************************************
 *
-*   Subroutine REND_STDIN_GET (STDIN, LINE)
+*   Subroutine REND_STDIN_GET (LINE)
 *
 *   Get the last STDIN line.  This call is only valid after a STDIN_LINE event
 *   was received.  Otherwise, LINE is set to the empty string.
 }
 procedure rend_stdin_get (             {get STDIN line, only valid after event}
-  in out  stdin: rend_stdin_t;         {STDIN reading state}
   in out  line: univ string_var_arg_t); {returned STDIN line}
   val_param;
 

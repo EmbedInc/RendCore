@@ -104,24 +104,12 @@ type
     locked: boolean;                   {LOCK is locked}
     end;
 
-  {   The following structure should be considered opaque except in the module
-  *   REND_STDIN.
-  }
-  rend_stdin_t = record                {state for handling standard input events}
-    line: string_var8192_t;            {line read from STDIN}
-    evbreak: sys_sys_event_id_t;       {aborts wait of input thread}
-    evstopped: sys_sys_event_id_t;     {signalled when thread stops}
-    hline: boolean;                    {a STDIN input line is in LINE}
-    on: boolean;                       {STDIN events enabled, thread running}
-    end;
-
 var (rend2)
   rend_mem_context_p: util_mem_context_p_t; {pnt to top level RENDlib mem context}
   rend_evglb: rend_evglb_t;            {set of all requested global events}
   rend_device:                         {top level data about each device}
     array[1..rend_max_devices] of rend_device_t;
   rend_evq: rend_evqueue_t;            {events queue}
-  rend_stdin: rend_stdin_t;            {STDIN handling state}
 {
 *   Subroutine entry points.  These are private routines used by RENDlib
 *   internally.
@@ -226,25 +214,20 @@ procedure rend_state_to_context (      {copy current state to context block}
   in out  context: rend_context_t);    {context block to copy into}
   extern;
 
-procedure rend_stdin_close (           {end STDIN reading, deallocate resources}
-  in out  stdin: rend_stdin_t);        {state to deallocate resources of}
+procedure rend_stdin_close;            {end STDIN reading, deallocate resources}
   val_param; extern;
 
 procedure rend_stdin_get (             {get STDIN line, only valid after event}
-  in out  stdin: rend_stdin_t;         {STDIN reading state}
   in out  line: univ string_var_arg_t); {returned STDIN line}
   val_param; extern;
 
-procedure rend_stdin_init (            {init STDIN state}
-  out     stdin: rend_stdin_t);        {state to initialize}
+procedure rend_stdin_init;             {init STDIN state}
   val_param; extern;
 
-procedure rend_stdin_off (             {disable STDIN events}
-  in out  stdin: rend_stdin_t);        {STDIN reading state}
+procedure rend_stdin_off;              {disable STDIN events}
   val_param; extern;
 
-procedure rend_stdin_on (              {enable STDIN events}
-  in out  stdin: rend_stdin_t);        {STDIN reading state}
+procedure rend_stdin_on;               {enable STDIN events}
   val_param; extern;
 
 procedure rend_vert3d_ind_adr (        {get adr of 3D vertex entry index}

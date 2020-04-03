@@ -27,7 +27,7 @@ call src_get %srcdir% %libname%_sw.ins.pas
 call src_get %srcdir% %libname%_sw2.ins.pas
 call src_get %srcdir% %libname%_open.ins.pas
 call src_get %srcdir% %libname%_sw_sys.ins.pas
-call src_get %srcdir% %libname%_events_sys.ins.pas
+call src_get %srcdir% %libname%_stdin.ins.pas
 
 make_debug debug_switches.ins.pas
 call src_builddate "%srcdir%"

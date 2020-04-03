@@ -24,6 +24,7 @@ rend_spokes_to_norm.obj
 rend_start.obj
 rend_state_to_context.obj
 rend_stdin.obj
+rend_stdin_sys.obj
 rend_sw_aa_radius.obj
 rend_sw_aa_scale.obj
 rend_sw_add_sblock.obj
