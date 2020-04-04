@@ -21,7 +21,7 @@ begin
 
   rend_evqueue_dealloc (rend_evq);     {release events queue resources}
 
-  rend_stdin_close;                    {release STDIN handline resources}
+  rend_stdin_close;                    {release STDIN handling resources}
 
   if rend_mem_context_p <> nil then
     util_mem_context_del (rend_mem_context_p); {release all RENDlib dynamic memory}
