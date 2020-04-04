@@ -85,31 +85,11 @@ type
     ev_changed: boolean;               {event config changed, for CHECK_MODES}
     end;
 
-  {   The following structures should be considered opaque except in the module
-  *   REND_EVQUEUE.
-  }
-  rend_evq_ent_p_t = ^rend_evq_ent_t;
-  rend_evq_ent_t = record              {one event queue entry}
-    next_p: rend_evq_ent_p_t;          {points to next entry in queue}
-    event: rend_event_t;               {actual event data}
-    end;
-
-  rend_evqueue_t = record              {the global event queue}
-    mem_p: util_mem_context_p_t;       {points to context for all queue dyn mem}
-    lock: sys_sys_threadlock_t;        {mutex for accessing the queue structures}
-    first_p: rend_evq_ent_p_t;         {points to first (next event) queue entry}
-    last_p: rend_evq_ent_p_t;          {points to last queue entry}
-    free_p: rend_evq_ent_p_t;          {points to chain of unused queue entries}
-    newev: sys_sys_event_id_t;         {notified when new event added to queue}
-    locked: boolean;                   {LOCK is locked}
-    end;
-
 var (rend2)
   rend_mem_context_p: util_mem_context_p_t; {pnt to top level RENDlib mem context}
   rend_evglb: rend_evglb_t;            {set of all requested global events}
   rend_device:                         {top level data about each device}
     array[1..rend_max_devices] of rend_device_t;
-  rend_evq: rend_evqueue_t;            {events queue}
 {
 *   Subroutine entry points.  These are private routines used by RENDlib
 *   internally.
@@ -134,42 +114,34 @@ function rend_event_pointer_move (     {handle 2D pointer motion}
   val_param; extern;
 
 procedure rend_evqueue_add (           {add event to end of queue}
-  out     queue: rend_evqueue_t;       {the queue to add event to}
   in      event: rend_event_t);        {event to add}
   val_param; extern;
 
 procedure rend_evqueue_add_unlock (    {add event to queue, release queue lock}
-  out     queue: rend_evqueue_t;       {the queue to add event to}
   in      event: rend_event_t);        {event to add}
   val_param; extern;
 
-procedure rend_evqueue_dealloc (       {deallocate resources of event queue}
-  in out  queue: rend_evqueue_t);      {the queue, returned unusable}
+procedure rend_evqueue_dealloc;        {deallocate resources of event queue}
   val_param; extern;
 
 procedure rend_evqueue_get (           {get next event}
-  in out  queue: rend_evqueue_t;       {queue to get event from}
   out     event: rend_event_t;         {returned event}
   in      wait: boolean);              {returns NONE event when FALSE and no event}
   val_param; extern;
 
 procedure rend_evqueue_init (          {initialize a event queue}
-  out     queue: rend_evqueue_t;       {the queue to initialize}
   in out  mem: util_mem_context_t);    {parent memory context}
   val_param; extern;
 
 procedure rend_evqueue_last_lock (     {get last event, lock the queue}
-  in out  queue: rend_evqueue_t;       {queue to get last event of}
   out     ev_p: rend_event_p_t);       {pointer to last event in queue, NIL = none}
   val_param; extern;
 
 procedure rend_evqueue_push (          {add event to start of queue}
-  out     queue: rend_evqueue_t;       {the queue to add event to}
   in      event: rend_event_t);        {event to add}
   val_param; extern;
 
-procedure rend_evqueue_unlock (        {release caller lock on queue}
-  in out  queue: rend_evqueue_t);      {queue to release lock on}
+procedure rend_evqueue_unlock;         {release caller lock on queue}
   val_param; extern;
 
 procedure rend_get_all_prim_access (   {get worst case access flags for all prims}

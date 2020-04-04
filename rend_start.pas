@@ -23,7 +23,7 @@ begin
     rend_device[ii].open := false;     {indicate this device closed}
     end;
 
-  rend_evqueue_init (rend_evq, rend_mem_context_p^); {init events queue}
+  rend_evqueue_init (rend_mem_context_p^); {init events queue}
 
   rend_stdin_init;                     {init STDIN management state}
 

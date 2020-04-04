@@ -17,7 +17,7 @@ define rend_event_key_multiple;
 *   Local subroutine REND_EVENT_GET2 (EVENT, WAIT)
 *
 *   Get the next event.  Return immediately, with a NULL event if neccesary,
-*   when WAIT is FALSE.  Otherwise wait until a suitable event occurrs.
+*   when WAIT is FALSE.  Otherwise wait until a suitable event occurs.
 *
 *   Callback events are handled transparently in this routine, so are never
 *   returned.
@@ -32,7 +32,7 @@ label
 
 begin
 unqueue_event:                         {try again if event processed here}
-  rend_evqueue_get (rend_evq, event, wait); {get next event}
+  rend_evqueue_get (event, wait);      {get next event}
 
   if rend_debug_level >= 10 then begin {show event info for debugging ?}
     write ('Read RENDlib event ');
@@ -185,7 +185,7 @@ rend_ev_app_k: begin
       end;                             {end of event type cases}
     end;                               {end of print debug enabled}
 
-  rend_evqueue_last_lock (rend_evq, evl_p); {get pointer to last event, lock the queue}
+  rend_evqueue_last_lock (evl_p);      {get pointer to last event, lock the queue}
   if evl_p = nil then goto no_compress; {no previous event to compress new with ?}
   if evl_p^.dev <> event.dev           {previous event not from same device ?}
     then goto no_compress;
@@ -204,7 +204,7 @@ rend_ev_resize_k: begin
   case evl_p^.ev_type of               {what type is the old event ?}
 rend_ev_resize_k,                      {RESIZE, RESIZE -> RESIZE}
 rend_ev_wiped_resize_k: begin          {WIPED_RESIZE, RESIZE -> WIPED_RESIZE}
-      rend_evqueue_unlock (rend_evq);  {release lock on the event queue}
+      rend_evqueue_unlock;             {release lock on the event queue}
       return;
       end;
     end;                               {end of old event type cases}
@@ -215,7 +215,7 @@ rend_ev_wiped_resize_k: begin          {WIPED_RESIZE, RESIZE -> WIPED_RESIZE}
 rend_ev_wiped_rect_k: begin
   case evl_p^.ev_type of               {what type is the old event ?}
 rend_ev_wiped_resize_k: begin          {WIPED_RESIZE, WIPED_RECT -> WIPED_RESIZE}
-      rend_evqueue_unlock (rend_evq);  {release lock on the event queue}
+      rend_evqueue_unlock;             {release lock on the event queue}
       return;
       end;
     end;                               {end of old event type cases}
@@ -232,11 +232,11 @@ rend_ev_wiped_resize_k: begin
 rend_ev_wiped_rect_k: begin            {WIPED_RECT, WIPED_RESIZE -> WIPED_RESIZE}
       evl_p^.ev_type :=                {compress to one WIPED_RESIZE}
         rend_ev_wiped_resize_k;
-      rend_evqueue_unlock (rend_evq);  {release lock on the event queue}
+      rend_evqueue_unlock;             {release lock on the event queue}
       return;
       end;
 rend_ev_wiped_resize_k: begin          {multiple WIPED_RESIZE are senseless}
-      rend_evqueue_unlock (rend_evq);  {release lock on the event queue}
+      rend_evqueue_unlock;             {release lock on the event queue}
       return;
       end;
     end;                               {end of old event type cases}
@@ -326,7 +326,7 @@ rend_ev_xf3d_k: begin                  {XF3D, XF3D -> XF3D}
         evl_p^.xf3d.comp :=            {combine component flags}
           evl_p^.xf3d.comp + event.xf3d.comp;
         end;                           {done with OMAT and NMAT abbreviations}
-      rend_evqueue_unlock (rend_evq);  {release lock on the event queue}
+      rend_evqueue_unlock;             {release lock on the event queue}
       return;                          {all done, nothing to add to the queue}
       end;                             {end of old event is XF3D case}
     end;                               {end of old event type cases}
@@ -338,7 +338,7 @@ rend_ev_xf3d_k: begin                  {XF3D, XF3D -> XF3D}
 *   to end of queue.
 }
 no_compress:
-  rend_evqueue_add_unlock (rend_evq, event); {add to end of queue, release lock}
+  rend_evqueue_add_unlock (event);     {add to end of queue, release lock}
   end;
 {
 ********************************************************************************
@@ -352,7 +352,7 @@ procedure rend_event_push (            {push event onto head of event queue}
   in      event: rend_event_t);        {this will be the next event returned}
 
 begin
-  rend_evqueue_push (rend_evq, event);
+  rend_evqueue_push (event);
   end;
 {
 ********************************************************************************

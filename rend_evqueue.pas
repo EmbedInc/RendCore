@@ -1,8 +1,6 @@
-{   Events queue structure handling.  These routines are passed the event queue
-*   and don't access other global RENDlib state.
-*
-*   The event queue structures should be considered opaque everywhere outside
-*   this module.
+{   Events queue structure handling.  The event queue is private to this module.
+*   The rest of the system interfaces with the event via the routines exported
+*   here.
 }
 module rend_evqueue;
 define rend_evqueue_init;
@@ -14,10 +12,30 @@ define rend_evqueue_last_lock;
 define rend_evqueue_add_unlock;
 define rend_evqueue_unlock;
 %include 'rend2.ins.pas';
+
+type
+  rend_evq_ent_p_t = ^rend_evq_ent_t;
+  rend_evq_ent_t = record              {one event queue entry}
+    next_p: rend_evq_ent_p_t;          {points to next entry in queue}
+    event: rend_event_t;               {actual event data}
+    end;
+
+  rend_evqueue_t = record              {the global event queue}
+    mem_p: util_mem_context_p_t;       {points to context for all queue dyn mem}
+    lock: sys_sys_threadlock_t;        {mutex for accessing the queue structures}
+    first_p: rend_evq_ent_p_t;         {points to first (next event) queue entry}
+    last_p: rend_evq_ent_p_t;          {points to last queue entry}
+    free_p: rend_evq_ent_p_t;          {points to chain of unused queue entries}
+    newev: sys_sys_event_id_t;         {notified when new event added to queue}
+    locked: boolean;                   {LOCK is locked}
+    end;
+
+var
+  queue: rend_evqueue_t;               {events queue}
 {
 ********************************************************************************
 *
-*   Local function ENTRY_GET (QUEUE)
+*   Local function ENTRY_GET
 *
 *   Returns a pointer to a available queue entry.  The entry will not be
 *   enqueued, nor will it be on the free list.
@@ -25,8 +43,7 @@ define rend_evqueue_unlock;
 *   If a free entry is available, it will be returned.  Otherwise, a new entry
 *   is allocated.
 }
-function entry_get (                   {get pointer to available queue entry}
-  in out  queue: rend_evqueue_t)       {queue to get entry for}
+function entry_get                     {get pointer to available queue entry}
   :rend_evq_ent_p_t;                   {pointer to new available queue entry}
   val_param; internal;
 
@@ -52,13 +69,12 @@ begin
 {
 ********************************************************************************
 *
-*   Local subroutine ENTRY_FREE (QUEUE, ENT)
+*   Local subroutine ENTRY_FREE (ENT)
 *
 *   Release the queue entry ENT.  The entry will be placed on the free entries
 *   list, and must not be used anymore by the caller.
 }
 procedure entry_free (                 {release queue entry onto free list}
-  in out  queue: rend_evqueue_t;       {queue the entry belongs to}
   in out  ent: rend_evq_ent_t);        {the entry to release}
   val_param; internal;
 
@@ -71,13 +87,12 @@ begin
 {
 ********************************************************************************
 *
-*   Subroutine REND_EVQUEUE_INIT (QUEUE, MEM)
+*   Subroutine REND_EVQUEUE_INIT (MEM)
 *
-*   Initialize the event queue QUEUE.  MEM is the parent memory context.  A
+*   Initialize the event queue.  MEM is the parent memory context.  A
 *   subordinate context will be created for the queue.
 }
 procedure rend_evqueue_init (          {initialize a event queue}
-  out     queue: rend_evqueue_t;       {the queue to initialize}
   in out  mem: util_mem_context_t);    {parent memory context}
   val_param;
 
@@ -96,13 +111,12 @@ begin
 {
 ********************************************************************************
 *
-*   Subroutine REND_EVQUEUE_DEALLOC (QUEUE)
+*   Subroutine REND_EVQUEUE_DEALLOC
 *
 *   Deallocate system resources associated with the events queue QUEUE.  The
 *   queue will not be usable until it is re-initialized.
 }
-procedure rend_evqueue_dealloc (       {deallocate resources of event queue}
-  in out  queue: rend_evqueue_t);      {the queue, returned unusable}
+procedure rend_evqueue_dealloc;        {deallocate resources of event queue}
   val_param;
 
 var
@@ -117,12 +131,11 @@ begin
 {
 ********************************************************************************
 *
-*   Subroutine REND_EVQUEUE_ADD (QUEUE, EVENT)
+*   Subroutine REND_EVQUEUE_ADD (EVENT)
 *
 *   Add the event EVENT to the end of the queue QUEUE.
 }
 procedure rend_evqueue_add (           {add event to end of queue}
-  out     queue: rend_evqueue_t;       {the queue to add event to}
   in      event: rend_event_t);        {event to add}
   val_param;
 
@@ -130,7 +143,7 @@ var
   ent_p: rend_evq_ent_p_t;             {pointer to new queue entry}
 
 begin
-  ent_p := entry_get (queue);          {get pointer to new queue entry}
+  ent_p := entry_get;                  {get pointer to new queue entry}
   ent_p^.event := event;               {copy the event data into the queue entry}
   ent_p^.next_p := nil;                {this entry will be at end of list}
 
@@ -150,12 +163,11 @@ begin
 {
 ********************************************************************************
 *
-*   Subroutine REND_EVQUEUE_PUSH (QUEUE, EVENT)
+*   Subroutine REND_EVQUEUE_PUSH (EVENT)
 *
 *   Add the event EVENT to the start of the queue QUEUE.
 }
 procedure rend_evqueue_push (          {add event to start of queue}
-  out     queue: rend_evqueue_t;       {the queue to add event to}
   in      event: rend_event_t);        {event to add}
   val_param;
 
@@ -163,7 +175,7 @@ var
   ent_p: rend_evq_ent_p_t;             {pointer to new queue entry}
 
 begin
-  ent_p := entry_get (queue);          {get pointer to new queue entry}
+  ent_p := entry_get;                  {get pointer to new queue entry}
   ent_p^.event := event;               {copy the event data into the queue entry}
 
   sys_thread_lock_enter (queue.lock);  {acquire lock on queue structures}
@@ -178,9 +190,9 @@ begin
 {
 ********************************************************************************
 *
-*   Subroutine REND_EVQUEUE_GET (QUEUE, EVENT, WAIT)
+*   Subroutine REND_EVQUEUE_GET (EVENT, WAIT)
 *
-*   Get the next event from the queue QUEUE.
+*   Get the next event from the queue.
 *
 *   When WAIT is TRUE, this routine will wait indefinitely for an event to be
 *   available, then return that event.
@@ -189,7 +201,6 @@ begin
 *   is immediately available, then EVENT is returned indicating event type NONE.
 }
 procedure rend_evqueue_get (           {get next event}
-  in out  queue: rend_evqueue_t;       {queue to get event from}
   out     event: rend_event_t;         {returned event}
   in      wait: boolean);              {returns NONE event when FALSE and no event}
   val_param;
@@ -217,7 +228,7 @@ retry:                                 {back here on notified after waiting}
     sys_thread_lock_leave (queue.lock); {done with queue structures}
 
     event := ent_p^.event;             {return the event from this entry}
-    entry_free (queue, ent_p^);        {this entry is now free}
+    entry_free (ent_p^);               {this entry is now free}
     return;
     end;
 
@@ -240,7 +251,7 @@ retry:                                 {back here on notified after waiting}
 {
 ********************************************************************************
 *
-*   Subroutine REND_EVQUEUE_LAST_LOCK (QUEUE, EV_P)
+*   Subroutine REND_EVQUEUE_LAST_LOCK (EV_P)
 *
 *   Return a pointer to the last event in the queue and lock the queue.  EV_P is
 *   returned pointing to the last event when there is one, NIL otherwise.
@@ -258,7 +269,6 @@ retry:                                 {back here on notified after waiting}
 *       follow the event pointed to by EV_P.
 }
 procedure rend_evqueue_last_lock (     {get last event, lock the queue}
-  in out  queue: rend_evqueue_t;       {queue to get last event of}
   out     ev_p: rend_event_p_t);       {pointer to last event in queue, NIL = none}
   val_param;
 
@@ -277,13 +287,12 @@ begin
 {
 ********************************************************************************
 *
-*   Subroutine REND_EVQUEUE_ADD_UNLOCK (QUEUE, EVENT)
+*   Subroutine REND_EVQUEUE_ADD_UNLOCK (EVENT)
 *
-*   Add a new event to the end of the queue, and release the lock acquire with
+*   Add a new event to the end of the queue, and release the lock acquired with
 *   REND_EVQUEUE_LAST_LOCK.
 }
 procedure rend_evqueue_add_unlock (    {add event to queue, release queue lock}
-  out     queue: rend_evqueue_t;       {the queue to add event to}
   in      event: rend_event_t);        {event to add}
   val_param;
 
@@ -322,12 +331,11 @@ begin
 {
 ********************************************************************************
 *
-*   Subroutine REND_EVQUEUE_UNLOCK (QUEUE)
+*   Subroutine REND_EVQUEUE_UNLOCK
 *
 *   Release the lock on the queue acquired with REND_EVQUEUE_LAST_LOCK.
 }
-procedure rend_evqueue_unlock (        {release caller lock on queue}
-  in out  queue: rend_evqueue_t);      {queue to release lock on}
+procedure rend_evqueue_unlock;         {release caller lock on queue}
   val_param;
 
 begin
