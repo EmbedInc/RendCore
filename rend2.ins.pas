@@ -189,6 +189,10 @@ procedure rend_state_to_context (      {copy current state to context block}
 procedure rend_stdin_close;            {end STDIN reading, deallocate resources}
   val_param; extern;
 
+function rend_stdin_enabled            {indicates whether STDIN events are enabled}
+  :boolean;                            {TRUE for STDIN events enabled}
+  val_param; extern;
+
 procedure rend_stdin_get (             {get STDIN line, only valid after event}
   in out  line: univ string_var_arg_t); {returned STDIN line}
   val_param; extern;

@@ -6,6 +6,7 @@ define rend_stdin_close;
 define rend_stdin_on;
 define rend_stdin_off;
 define rend_stdin_get;
+define rend_stdin_enabled;
 %include 'rend2.ins.pas';
 %include 'rend_stdin.ins.pas';
 
@@ -93,4 +94,18 @@ begin
   string_copy (stdin.line, line);      {return the current saved line}
   stdin.hline := false;                {there is no saved STDIN line}
   rend_stdin_sys_gotline (stdin);      {notify now done with LINE}
+  end;
+{
+********************************************************************************
+*
+*   Subroutine REND_STDIN_ENABLED
+*
+*   Get whether STDIN events are enabled or not.
+}
+function rend_stdin_enabled            {indicates whether STDIN events are enabled}
+  :boolean;                            {TRUE for STDIN events enabled}
+  val_param;
+
+begin
+  rend_stdin_enabled := stdin.on;
   end;
