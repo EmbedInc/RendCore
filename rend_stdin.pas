@@ -42,10 +42,7 @@ procedure rend_stdin_close;            {end STDIN reading, deallocate resources}
   val_param;
 
 begin
-  if stdin.on then begin               {the thread is running ?}
-    rend_stdin_off;                    {stop it}
-    end;
-
+  rend_stdin_off;                      {make sure STDIN reading is off}
   rend_stdin_sys_close (stdin);        {deallocate system-dependent resources}
   end;
 {

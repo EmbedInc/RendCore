@@ -251,6 +251,8 @@ begin
     addr(stdin),                       {argument to thread routine}
     [],                                {option flags}
     thread_id);                        {returned thread ID}
+
+  discard( CloseHandle (thread_h) );   {no future use for the thread handle}
   end;
 {
 ********************************************************************************
@@ -282,10 +284,22 @@ procedure rend_stdin_sys_off (         {stop STDIN reading}
 
 begin
   stdin.on := false;                   {tell thread to exit}
-  discard( SetEvent (evbreak) );       {wake thread to see exit request}
+
+(* *******
+*
+*   To guarantee the thread will exist the blocking ReadFile call, the I/O
+*   operation must be cancelled.  However, the CancelIoEx routine required to do
+*   that is not supported in WinXP.  For now, to allow binaries to run on WinXP,
+*   CancelIoEx will not be called.
+*
   discard( CancelIoEx (stdin_h, addr(ovl)) ); {stop I/O so thread sees exit request}
+*)
+
+  discard( SetEvent (evbreak) );       {wake thread for it to see exit request}
+  discard( SetEvent (ovl.event_h) );
+  discard( SetEvent (stdin_h) );
 
   discard( WaitForSingleObject (       {wait for thread to actually exit}
     evstopped,                         {event to wait on}
-    timeout_infinite_k) );             {wait as long as it takes}
+    200) );                            {leave reasonable time, then give up}
   end;
