@@ -89,6 +89,15 @@ rend_ev_call_k: begin                  {callback event}
         end;
       goto unqueue_event;              {back to get next event}
       end;
+rend_ev_key_k: begin                   {key up or down}
+      rend_sw_pointer_abs (event.key.x, event.key.y);
+      end;
+rend_ev_pnt_enter_k: begin             {pointer entered draw area}
+      rend_sw_pointer_abs (event.pnt_enter.x, event.pnt_enter.y);
+      end;
+rend_ev_pnt_exit_k: begin              {pointer left draw area}
+      rend_sw_pointer_abs (event.pnt_exit.x, event.pnt_exit.y);
+      end;
     end;                               {end of event type cases}
   end;                                 {return with event}
 {
