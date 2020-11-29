@@ -5,6 +5,7 @@ rend_dev_save.obj
 rend_dev_set.obj
 rend_dummy.obj
 rend_end.obj
+rend_event_show.obj
 rend_events.obj
 rend_evqueue.obj
 rend_get_all_prim_access.obj

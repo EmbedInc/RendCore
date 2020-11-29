@@ -2373,6 +2373,10 @@ procedure rend_message_bomb (          {close RENDlib, print message, then bomb}
 *   Utility routines that are "external" to the rest of RENDlib.  These don't
 *   effect any internal RENDlib state.
 }
+procedure rend_event_show (            {show event on standard output}
+  in      ev: rend_event_t);           {the event to show}
+  val_param; extern;
+
 procedure rend_make_spokes_pnt (       {set SPOKES_P field in vertex descriptor}
   in out  vert: univ rend_vert3d_t;    {vertex descriptor in which to set SPOKES_P}
   in      vert1, vert2: univ rend_vert3d_t; {adjacent verticies to VERT}

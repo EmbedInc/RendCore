@@ -16,6 +16,7 @@ call src_pas %srcdir% %libname%_dev_save %1
 call src_pas %srcdir% %libname%_dev_set %1
 call src_pas %srcdir% %libname%_dummy %1
 call src_pas %srcdir% %libname%_end %1
+call src_pas %srcdir% %libname%_event_show %1
 call src_pas %srcdir% %libname%_events %1
 call src_pas %srcdir% %libname%_evqueue %1
 call src_pas %srcdir% %libname%_get_all_prim_access %1
