@@ -64,6 +64,7 @@ type
     rend_evdev_wiped_resize_k,         {WIPED_RESIZE compressed with WIPED_RECT}
     rend_evdev_wiped_rect_k,           {WIPED_RECT events}
     rend_evdev_key_k,                  {KEY events}
+    rend_evdev_scroll_k,               {scroll wheel events}
     rend_evdev_pnt_k,                  {PNT_ENTER, PNT_EXIT, PNT_MOVE events}
     rend_evdev_rotate_k,               {3D rotations}
     rend_evdev_translate_k);           {3D translations}

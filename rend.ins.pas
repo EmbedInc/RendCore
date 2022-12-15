@@ -1446,6 +1446,10 @@ event_req_key_on: ^procedure (         {request events for a particular key}
   in      id_user: sys_int_machine_t); {ID returned to user with event data}
   val_param;
 
+event_req_scroll: ^procedure (         {request scroll wheel events}
+  in      on: boolean);                {TRUE requests these events}
+  val_param;
+
 event_req_pnt: ^procedure (            {request pnt ENTER, EXIT, MOVE events on/off}
   in      on: boolean);                {TRUE requests these events}
   val_param;

@@ -180,6 +180,7 @@ begin
   rend_sw_set.event_req_close := addr(rend_sw_event_req_close);
   rend_sw_set.event_req_key_off := addr(rend_sw_event_req_key_off);
   rend_sw_set.event_req_key_on := addr(rend_sw_event_req_key_on);
+  rend_sw_set.event_req_scroll := addr(rend_sw_event_req_scroll);
   rend_sw_set.event_req_pnt := addr(rend_sw_event_req_pnt);
   rend_sw_set.event_req_resize := addr(rend_sw_event_req_resize);
   rend_sw_set.event_req_rotate_off := addr(rend_sw_event_req_rotate_off);

@@ -1936,6 +1936,10 @@ procedure rend_sw_event_req_key_off (  {request no events for a particular key}
   in      id: rend_key_id_t);          {RENDlib ID of key requesting no events for}
   val_param; extern;
 
+procedure rend_sw_event_req_scroll (   {request scroll wheel events on/off}
+  in      on: boolean);                {TRUE requests these events}
+  val_param; extern;
+
 procedure rend_sw_event_req_pnt (      {request pnt ENTER, EXIT, MOVE events on/off}
   in      on: boolean);                {TRUE requests these events}
   val_param; extern;

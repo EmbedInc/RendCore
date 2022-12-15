@@ -126,6 +126,9 @@ rend_ev_wiped_resize_k: begin          {all pixels wiped out, now redrawable}
 rend_ev_key_k: begin                   {a user-pressable key changed state}
         writeln ('KEY ', event.key.x, ',', event.key.y);
         end;
+rend_ev_scrollv_k: begin               {vertical scroll wheel movement}
+        writeln ('SCROLLV ', event.scrollv.n);
+        end;
 rend_ev_pnt_enter_k: begin             {pointer entered draw area}
         writeln ('PNT_ENTER');
         end;
@@ -206,6 +209,19 @@ rend_ev_wiped_resize_k: begin          {multiple WIPED_RESIZE are senseless}
       end;
     end;                               {end of old event type cases}
   end;                                 {end of new event is WIPED_RESIZE case}
+{
+*   New event is SCROLLV.
+}
+rend_ev_scrollv_k: begin
+  case evl_p^.ev_type of               {what type is the old event ?}
+rend_ev_scrollv_k: begin               {last event is the same}
+      evl_p^.scrollv.n :=              {add new movement to existing event}
+        evl_p^.scrollv.n + event.scrollv.n;
+      rend_evqueue_unlock;             {release lock on the event queue}
+      return;
+      end;
+    end;                               {end of old event type cases}
+  end;                                 {end of new event is SCROLLV case}
 {
 *   Adjacent 3D transform events.  The new transform will be post-mutiplied
 *   to the old, and the result will be used to update the event already in the

@@ -7,6 +7,7 @@ define rend_sw_event_req_wiped_resize;
 define rend_sw_event_req_wiped_rect;
 define rend_sw_event_req_key_on;
 define rend_sw_event_req_key_off;
+define rend_sw_event_req_scroll;
 define rend_sw_event_req_pnt;
 define rend_sw_event_req_rotate_off;
 define rend_sw_event_req_rotate_on;
@@ -213,6 +214,33 @@ begin
 {
 *********************************************************
 }
+procedure rend_sw_event_req_scroll (   {request scroll wheel events on/off}
+  in      on: boolean);                {TRUE requests these events}
+  val_param;
+
+const
+  ev = rend_evdev_scroll_k;            {ID for this event class}
+
+begin
+  with rend_device[rend_dev_id]: dev do begin {DEV is our device descriptor}
+    if on
+      then begin                       {these events are being enabled}
+        if ev in dev.ev_req then return; {already enabled ?}
+        dev.ev_req := dev.ev_req + [ev]; {enable these events}
+        end
+      else begin                       {these events are being disabled}
+        if not (ev in dev.ev_req) then return; {already disabled ?}
+        dev.ev_req := dev.ev_req - [ev]; {disable these events}
+        end
+      ;
+    dev.ev_changed := true;            {event configuration changed for this dev}
+    end;                               {done with DEV abbreviation}
+
+  rend_internal.check_modes^;
+  end;
+{
+*********************************************************
+}
 procedure rend_sw_event_req_pnt (      {request pnt ENTER, EXIT, MOVE events on/off}
   in      on: boolean);                {TRUE requests these events}
   val_param;
@@ -336,6 +364,9 @@ rend_ev_wiped_resize_k: begin
       end;
 rend_ev_key_k: begin
       ev := rend_evdev_key_k;
+      end;
+rend_ev_scrollv_k: begin
+      ev := rend_evdev_scroll_k;
       end;
 rend_ev_pnt_enter_k: begin
       ev := rend_evdev_pnt_k;
