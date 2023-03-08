@@ -449,6 +449,13 @@ rend_tmapm_mip_k: (                    {method is MIP MAPPING}
     inside: boolean;                   {TRUE if pointer within drawing area}
     root_inside: boolean;              {TRUE if pointer on root device}
     end;
+
+  rend_callback_t = record             {info about PRIM/SET/GET app callbacks}
+    cpnt_2dim_call_p: rend_cpnt_2dim_call_p_t; {to SET.CPNT_2DIM callback routine}
+    cpnt_2dim_state_p: univ_ptr;       {to SET.CPNT_2DIM app callback state}
+    vect_2dim_call_p: rend_vect_2dim_call_p_t; {to PRIM.VECT_2DIM callback routine}
+    vect_2dim_state_p: univ_ptr;       {to PRIM.VECT_2DIM app callback state}
+    end;
 {
 *   Define the template of the transfer vector for internal functions.
 }
@@ -596,6 +603,7 @@ var (rend_sw)
     sys_fpmode_t;
   rend_updmode: rend_updmode_k_t;      {current display update mode}
   rend_bench: rend_bench_t;            {benchmark flags}
+  rend_callback: rend_callback_t;      {PRIM/SET/GET app callback state}
 
   rend_clip_normal: boolean;           {TRUE on single draw inside clip rectangle}
   rend_dirty_crect: boolean;           {TRUE if whole clip rectangle not updated}
@@ -1050,6 +1058,10 @@ procedure rend_sw_cpnt_2d (            {set current point with absolute coordina
   val_param; extern;
 
 procedure rend_sw_cpnt_2dim (          {set current point with absolute coordinates}
+  in      x, y: real);                 {new coordinates of curr pnt in this space}
+  val_param; extern;
+
+procedure rend_sw_cpnt_2dim_cb (       {SET.CPNT_2DIM that does app callback}
   in      x, y: real);                 {new coordinates of curr pnt in this space}
   val_param; extern;
 
@@ -1835,6 +1847,10 @@ procedure rend_sw_vect_2dim (          {vector from curr pnt to new absolute poi
   in      x, y: real);                 {coor of end point and new current point}
   val_param; extern;
 
+procedure rend_sw_vect_2dim_cb (       {PRIM.VECT_2DIM that does app callback}
+  in      x, y: real);                 {coor of end point and new current point}
+  val_param; extern;
+
 procedure rend_sw_vect_2dimcl (        {vector from curr pnt to new absolute point}
   in      x, y: real);                 {coor of end point and new current point}
   val_param; extern;
@@ -2151,6 +2167,7 @@ var
   rend_sw_update_span_d: extern rend_prim_data_t;
   rend_sw_update_rect_d: extern rend_prim_data_t;
   rend_sw_vect_2d_d: extern rend_prim_data_t;
+  rend_sw_vect_2dim_cb_d: extern rend_prim_data_t;
   rend_sw_vect_2dimcl_d: extern rend_prim_data_t;
   rend_sw_vect_2dimi_d: extern rend_prim_data_t;
   rend_sw_vect_3d_d: extern rend_prim_data_t;

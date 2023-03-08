@@ -10,6 +10,7 @@ call build_pasinit
 call src_insall %srcdir% %libname%
 
 call src_pas %srcdir% %libname%_cache_clip_2dim %1
+call src_pas %srcdir% %libname%_callback %1
 call src_pas %srcdir% %libname%_config_vert3d %1
 call src_pas %srcdir% %libname%_context_to_state %1
 call src_pas %srcdir% %libname%_dev_save %1
@@ -50,6 +51,7 @@ call src_pas %srcdir% %libname%_sw_bench %1
 call src_pas %srcdir% %libname%_sw_bres_fp %1
 call src_pas %srcdir% %libname%_sw_bres_step %1
 call src_pas %srcdir% %libname%_sw_cache_version %1
+call src_pas %srcdir% %libname%_sw_callback %1
 call src_pas %srcdir% %libname%_sw_check_modes %1
 call src_pas %srcdir% %libname%_sw_check_modes2 %1
 call src_pas %srcdir% %libname%_sw_cirres %1
@@ -294,6 +296,7 @@ call src_rendprim %srcdir% %libname%_sw_tzoid5
 call src_rendprim %srcdir% %libname%_sw_update_rect
 call src_rendprim %srcdir% %libname%_sw_update_span
 call src_rendprim %srcdir% %libname%_sw_vect_2d
+call src_rendprim %srcdir% %libname%_sw_vect_2dim_cb
 call src_rendprim %srcdir% %libname%_sw_vect_2dimcl
 call src_rendprim %srcdir% %libname%_sw_vect_2dimi
 call src_rendprim %srcdir% %libname%_sw_vect_3d

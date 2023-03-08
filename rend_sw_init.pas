@@ -733,6 +733,11 @@ begin
   rend_suprop.changed := true;         {examine SUPROP state next CHECK_MODES}
   rend_sw_bench_init;                  {init REND_BENCH flags}
 
+  rend_callback.cpnt_2dim_call_p := nil; {init app callback state}
+  rend_callback.cpnt_2dim_state_p := nil;
+  rend_callback.vect_2dim_call_p := nil;
+  rend_callback.vect_2dim_state_p := nil;
+
   rend_save_blocks := 0;               {init number of saved/restored blocks}
   rend_sw_add_sblock (                 {add user-vis common block to save/rest list}
     univ_ptr(sys_int_adr_t(addr(rend_com_start)) + sizeof(rend_com_start)),

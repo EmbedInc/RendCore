@@ -960,6 +960,16 @@ rend_ev_call_k: (                      {transparently call routine}
     rend_pntmode_pan_k,                {as if pointer moving Z=0 plane}
     rend_pntmode_dolly_k,              {pnt Y translates observer in/out}
     rend_pntmode_rot_k);               {as if pointer moving front of virtual sphere}
+
+  rend_cpnt_2dim_call_p_t = ^procedure ( {app callback routine for SET.CPNT_2DIM}
+    app_p: univ_ptr;                   {pointer to app callback state}
+    x, y: real);                       {new current point coordinate}
+    val_param;
+
+  rend_vect_2dim_call_p_t = ^procedure ( {app callback routine for PRIM.VECT_2DIM}
+    app_p: univ_ptr;                   {pointer to app callback state}
+    x, y: real);                       {vector endpoint and new current point}
+    val_param;
 {
 ********************************************************************************
 *
@@ -2371,6 +2381,16 @@ procedure rend_message_bomb (          {close RENDlib, print message, then bomb}
   in      parms: univ sys_parm_msg_ar_t; {array of parameter descriptors}
   in      n_parms: sys_int_machine_t); {number of parameters in PARMS}
   options (extern, val_param, noreturn);
+
+procedure rend_callback_cpnt_2dim (    {set app callback for SET.CPNT_2DIM}
+  in      routine_p: rend_cpnt_2dim_call_p_t; {to app routine to call}
+  in      app_p: univ_ptr);            {to app private state to pass to callback}
+  val_param; extern;
+
+procedure rend_callback_vect_2dim (    {set app callback for PRIM.VECT_2DIM}
+  in      routine_p: rend_vect_2dim_call_p_t; {to app routine to call}
+  in      app_p: univ_ptr);            {to app private state to pass to callback}
+  val_param; extern;
 {
 ****************************************
 *

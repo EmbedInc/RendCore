@@ -35,7 +35,7 @@
 *     to have a scope tied to the current RENDlib invocation, but above any
 *     specific device.  An example might be a RENDlib bitmap that is shared
 *     between devices.  Such memory is automatically deallocated when REND_END
-*     is called.  RENDlib device  memory is assumed to be associated only with a
+*     is called.  RENDlib device memory is assumed to be associated only with a
 *     particular device, and is therefore automatically deallocated when
 *     REND_SET.CLOSE is called.
 }

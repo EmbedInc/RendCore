@@ -1,4 +1,5 @@
 rend_cache_clip_2dim.obj
+rend_callback.obj
 rend_config_vert3d.obj
 rend_context_to_state.obj
 rend_dev_save.obj
@@ -39,6 +40,7 @@ rend_sw_bench.obj
 rend_sw_bres_fp.obj
 rend_sw_bres_step.obj
 rend_sw_cache_version.obj
+rend_sw_callback.obj
 rend_sw_check_modes.obj
 rend_sw_check_modes2.obj
 rend_sw_cirres.obj
@@ -279,6 +281,7 @@ rend_sw_update_span.obj
 rend_sw_vect_2d.obj
 rend_sw_vect_2dimcl.obj
 rend_sw_vect_2dimi.obj
+rend_sw_vect_2dim_cb.obj
 rend_sw_vect_3d.obj
 rend_sw_vect_3dpl.obj
 rend_sw_vect_3dw.obj

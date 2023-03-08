@@ -63,7 +63,7 @@ begin
 *   Local function FILE_EDIT (LIST)
 *
 *   Edit the source lines of the graphics primitive in LIST, as appropriate.
-*   The function returns TRUE iff any changes were made to the soruce lines.
+*   The function returns TRUE iff any changes were made to the source lines.
 *
 *   If the source code is a valid module (contains exactly one MODULE
 *   statement), then the module is added to either the PRIM_LIST or NPRIM_LIST
