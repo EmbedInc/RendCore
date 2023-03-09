@@ -38,6 +38,10 @@ var
   token: string_var32_t;               {scratch token for number conversion}
   pick: sys_int_machine_t;             {number of token picked from list}
   p: string_index_t;                   {parse index for PARMS}
+  img_xsz, img_ysz: sys_int_machine_t; {image size from command parameters}
+  img_asp: real;                       {image aspect from command parameters}
+  img_sz_set: boolean;                 {image size was set from cmd paramters}
+  img_asp_set: boolean;                {aspect ratio was set from cmd parameters}
   msg_parm:                            {parameter references for messages}
     array[1..max_msg_parms] of sys_parm_msg_t;
 
@@ -757,6 +761,8 @@ begin
 {
 *   Process possible commands and arguments in the PARMS string.
 }
+  img_sz_set := false;                 {init to image size not set}
+  img_asp_set := false;                {init to image aspect ratio not set}
   p := 1;                              {init PARMS parse index}
 
 parms_loop:
@@ -779,13 +785,12 @@ parms_loop:
 *   SIZE dx dy
 }
 2:  begin
-      string_token_int (parms, p, rend_image.x_size, stat);
+      string_token_int (parms, p, img_xsz, stat);
       if sys_error(stat) then goto cmd_done;
-      string_token_int (parms, p, rend_image.y_size, stat);
+      string_token_int (parms, p, img_ysz, stat);
       if sys_error(stat) then goto cmd_done;
 
-      rend_image.size_fixed := true;
-      rend_image.aspect := rend_image.x_size / rend_image.y_size;
+      img_sz_set := true;
       end;
 {
 *   ASPECT dx dy
@@ -796,7 +801,8 @@ parms_loop:
       string_token_fpm (parms, p, r2, stat);
       if sys_error(stat) then goto cmd_done;
 
-      rend_image.aspect := r1 / r2;
+      img_asp := r1 / r2;
+      img_asp_set := true;
       end;
 {
 *   Unrecognized command in PARMS string.
@@ -812,6 +818,13 @@ cmd_done:                              {done processing this last command}
   sys_msg_parm_vstr (msg_parm[1], cmd);
   sys_msg_parm_vstr (msg_parm[2], dev_name);
   rend_message_bomb ('rend', 'rend_parm_parm_error', msg_parm, 2);
-done_parms:                            {all done processing PARMS string}
 
+done_parms:                            {all done processing PARMS string}
+  if img_sz_set then begin             {image size set by command parameters ?}
+    if not img_asp_set then begin      {aspect ratio not explicitly set ?}
+      img_asp := img_xsz / img_ysz;    {default to square pixels}
+      end;
+    rend_set.image_size^ (img_xsz, img_ysz, img_asp); {set img size and aspect ratio}
+    rend_image.size_fixed := true;     {can't be changed if set by cmd parms}
+    end;
   end;
