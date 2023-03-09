@@ -13,11 +13,8 @@ procedure rend_sw_cpnt_2d (            {set current point with absolute coordina
 begin
   rend_2d.sp.cpnt.x := x;              {save 2D model space current point coor}
   rend_2d.sp.cpnt.y := y;
-  rend_2d.curr_x2dim :=                {make 2D image space current point}
-    x*rend_2d.sp.xb.x + y*rend_2d.sp.yb.x + rend_2d.sp.ofs.x;
-  rend_2d.curr_y2dim :=
-    x*rend_2d.sp.xb.y + y*rend_2d.sp.yb.y + rend_2d.sp.ofs.y;
-  rend_set.cpnt_2dimi^ (               {set image coordinate space current point}
-    trunc(rend_2d.curr_x2dim),
-    trunc(rend_2d.curr_y2dim));
+
+  rend_set.cpnt_2dim^ (                {set image space current point}
+    x*rend_2d.sp.xb.x + y*rend_2d.sp.yb.x + rend_2d.sp.ofs.x,
+    x*rend_2d.sp.xb.y + y*rend_2d.sp.yb.y + rend_2d.sp.ofs.y);
   end;
