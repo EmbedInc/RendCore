@@ -25,7 +25,7 @@ const
 var
   ovl: overlap_t;                      {overlapped I/O state}
   ibuf: string_var80_t;                {STDIN input buffer}
-  ibufr: sys_int_machine_t;            {IBUF index of next byte to retur}
+  ibufr: sys_int_machine_t;            {IBUF index of next byte to return}
   stdin_h: win_handle_t;               {handle to STDIN stream}
   waitlist:                            {list of events to wait on for I/O complete}
     array [0..maxwait] of win_handle_t;
@@ -203,7 +203,7 @@ begin
     win_bool_false_k,                  {initial state is not signalled}
     nil);                              {pointet to name, unused}
 
-  evbreak := CreateEventA (            {create event to indicate thread stopped}
+  evstopped := CreateEventA (          {create event to indicate thread stopped}
     nil,                               {pointer to security attributes, unused}
     win_bool_false_k,                  {auto reset}
     win_bool_false_k,                  {initial state is not signalled}
@@ -284,20 +284,8 @@ procedure rend_stdin_sys_off (         {stop STDIN reading}
 
 begin
   stdin.on := false;                   {tell thread to exit}
-
-(* *******
-*
-*   To guarantee the thread will exist the blocking ReadFile call, the I/O
-*   operation must be cancelled.  However, the CancelIoEx routine required to do
-*   that is not supported in WinXP.  For now, to allow binaries to run on WinXP,
-*   CancelIoEx will not be called.
-*
-  discard( CancelIoEx (stdin_h, addr(ovl)) ); {stop I/O so thread sees exit request}
-*)
-
   discard( SetEvent (evbreak) );       {wake thread for it to see exit request}
-  discard( SetEvent (ovl.event_h) );
-  discard( SetEvent (stdin_h) );
+  discard( CancelIoEx (stdin_h, addr(ovl)) ); {stop I/O so thread sees exit request}
 
   discard( WaitForSingleObject (       {wait for thread to actually exit}
     evstopped,                         {event to wait on}
